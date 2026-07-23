@@ -1,0 +1,706 @@
+{
+  "all_pass": true,
+  "evidence_and_baseline": {
+    "baseline_reference_installed": true,
+    "baseline_training_included": false,
+    "comparison_hash": "97c699163cce0e709b7f29b955ab89c839f60d13608eec2eb4a88dbe565e68fd",
+    "forged_verifier_evidence_rejected": true
+  },
+  "exact_profile": {
+    "baseline_training_included": false,
+    "bundle_bytes": 1116437,
+    "changed_parameters": 75766,
+    "changed_tensors": [
+      "expert_branch_bias",
+      "expert_branch_centers",
+      "expert_branch_health",
+      "expert_branch_readout",
+      "expert_branch_weights",
+      "expert_gate_bias",
+      "expert_gate_weights",
+      "expert_health",
+      "expert_local_bias",
+      "rotation_phase"
+    ],
+    "checkpoint_bytes": 23934199,
+    "config": {
+      "active_experts_per_update": 15,
+      "branch_width": 12,
+      "categories": 20,
+      "classes": 100,
+      "expert_branches": 4,
+      "experts_per_category": 45,
+      "field_blocks": 8,
+      "input_width": 3072,
+      "max_routed_categories": 8,
+      "memory_strength_init": 0.2,
+      "representation_width": 96,
+      "routing_expansion_margin": 0.15,
+      "scout_projection_width": 3,
+      "scouts_per_category": 50,
+      "seed": 7,
+      "top_categories": 4
+    },
+    "delta_bytes": 426664,
+    "historical_trained_weights_exercised": false,
+    "initialize_seconds": 0.06268842899953597,
+    "mutation_seconds": 0.17527786299979198,
+    "parameter_count": 4898812,
+    "reachability": {
+      "all_persistent_tensor_families_owned": true,
+      "all_trainable_parameter_families_reachable": true,
+      "format": "dendriswarm.native10-parameter-reachability.v2",
+      "operation_coverage_elements": {
+        "branch_train": 4454120,
+        "expert_train": 4545920,
+        "field_train": 48212,
+        "memory_train": 9800,
+        "repair": 4545920,
+        "scout_train": 296940
+      },
+      "persistent_state_elements": 120,
+      "reachable_float_fraction": 1.0,
+      "reachable_float_parameters": 4898812,
+      "tensors": {
+        "associative_counts": {
+          "kind": "state",
+          "operations": [
+            "memory_train"
+          ],
+          "reachable": true,
+          "shape": [
+            100
+          ]
+        },
+        "associative_memory": {
+          "kind": "trainable-float",
+          "operations": [
+            "memory_train"
+          ],
+          "reachable": true,
+          "shape": [
+            100,
+            96
+          ]
+        },
+        "associative_strength": {
+          "kind": "trainable-float",
+          "operations": [
+            "memory_train"
+          ],
+          "reachable": true,
+          "shape": [
+            100
+          ]
+        },
+        "category_bias": {
+          "kind": "trainable-float",
+          "operations": [
+            "field_train",
+            "scout_train"
+          ],
+          "reachable": true,
+          "shape": [
+            20
+          ]
+        },
+        "category_readout": {
+          "kind": "trainable-float",
+          "operations": [
+            "field_train",
+            "scout_train"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            96
+          ]
+        },
+        "expert_branch_bias": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "branch_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45,
+            4,
+            12
+          ]
+        },
+        "expert_branch_centers": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "branch_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45,
+            4,
+            12
+          ]
+        },
+        "expert_branch_health": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "branch_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45,
+            4
+          ]
+        },
+        "expert_branch_readout": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "branch_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45,
+            4,
+            12,
+            5
+          ]
+        },
+        "expert_branch_weights": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "branch_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45,
+            4,
+            96,
+            12
+          ]
+        },
+        "expert_gate_bias": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45
+          ]
+        },
+        "expert_gate_weights": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45,
+            96
+          ]
+        },
+        "expert_health": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "branch_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45
+          ]
+        },
+        "expert_local_bias": {
+          "kind": "trainable-float",
+          "operations": [
+            "expert_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20,
+            45,
+            5
+          ]
+        },
+        "field_bias": {
+          "kind": "trainable-float",
+          "operations": [
+            "field_train"
+          ],
+          "reachable": true,
+          "shape": [
+            8,
+            12
+          ]
+        },
+        "field_mixer": {
+          "kind": "trainable-float",
+          "operations": [
+            "field_train"
+          ],
+          "reachable": true,
+          "shape": [
+            96,
+            96
+          ]
+        },
+        "field_mixer_bias": {
+          "kind": "trainable-float",
+          "operations": [
+            "field_train"
+          ],
+          "reachable": true,
+          "shape": [
+            96
+          ]
+        },
+        "field_weights": {
+          "kind": "trainable-float",
+          "operations": [
+            "field_train"
+          ],
+          "reachable": true,
+          "shape": [
+            8,
+            384,
+            12
+          ]
+        },
+        "rotation_phase": {
+          "kind": "state",
+          "operations": [
+            "expert_train",
+            "branch_train",
+            "repair"
+          ],
+          "reachable": true,
+          "shape": [
+            20
+          ]
+        },
+        "scout_bias": {
+          "kind": "trainable-float",
+          "operations": [
+            "scout_train"
+          ],
+          "reachable": true,
+          "shape": [
+            1000,
+            3
+          ]
+        },
+        "scout_centers": {
+          "kind": "trainable-float",
+          "operations": [
+            "scout_train"
+          ],
+          "reachable": true,
+          "shape": [
+            1000,
+            3
+          ]
+        },
+        "scout_quality": {
+          "kind": "trainable-float",
+          "operations": [
+            "scout_train"
+          ],
+          "reachable": true,
+          "shape": [
+            1000
+          ]
+        },
+        "scout_weights": {
+          "kind": "trainable-float",
+          "operations": [
+            "scout_train"
+          ],
+          "reachable": true,
+          "shape": [
+            1000,
+            96,
+            3
+          ]
+        }
+      },
+      "total_persistent_tensor_elements": 4898932,
+      "trainable_float_parameters": 4898812
+    },
+    "sample_count": 100,
+    "samples_by_class": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "verification_seconds": 2.0927191660011886
+  },
+  "gates": [
+    {
+      "gate": "exact_native10_executes",
+      "pass": true
+    },
+    {
+      "gate": "all_float_parameters_reachable",
+      "pass": true
+    },
+    {
+      "gate": "nonlinear_branch_weights_train",
+      "pass": true
+    },
+    {
+      "gate": "operation_specific_schema",
+      "pass": true
+    },
+    {
+      "gate": "independent_candidate_search",
+      "pass": true
+    },
+    {
+      "gate": "noise_level_gain_rejected",
+      "pass": true
+    },
+    {
+      "gate": "strong_paired_gain_significant",
+      "pass": true
+    },
+    {
+      "gate": "trainers_blind_to_holdouts",
+      "pass": true
+    },
+    {
+      "gate": "selection_and_replication_are_distinct",
+      "pass": true
+    },
+    {
+      "gate": "hidden_artifacts_are_one_tournament_only",
+      "pass": true
+    },
+    {
+      "gate": "selection_significant",
+      "pass": true
+    },
+    {
+      "gate": "fresh_replication_significant",
+      "pass": true
+    },
+    {
+      "gate": "identity_distinct_evidence_chain",
+      "pass": true
+    },
+    {
+      "gate": "canonical_root_changes_only_after_replication",
+      "pass": true
+    },
+    {
+      "gate": "conflict_free_delta_composition",
+      "pass": true
+    },
+    {
+      "gate": "sparse_delta_smaller_than_bundle",
+      "pass": true
+    },
+    {
+      "gate": "audit_chain_valid",
+      "pass": true
+    },
+    {
+      "gate": "verifier_evidence_recomputed",
+      "pass": true
+    },
+    {
+      "gate": "external_baseline_reference_without_training",
+      "pass": true
+    },
+    {
+      "gate": "baseline_training_excluded",
+      "pass": true
+    }
+  ],
+  "generated_at": 1784834628.9537394,
+  "network_round": {
+    "all_result_receipts_accepted": true,
+    "audit_chain_valid": true,
+    "contribution": {
+      "active_experts": [],
+      "candidate_id": "e80c1e651bd2fdbb3c06c988ed669218f36c85f08b02eb3afec16bc15ea22e2d",
+      "category": 0,
+      "delta_hash": "e80c1e651bd2fdbb3c06c988ed669218f36c85f08b02eb3afec16bc15ea22e2d",
+      "effect_rate": 0.140625,
+      "loss_rates_by_class": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "losses": 2,
+      "losses_by_class": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "mcnemar_p_value": 5.9396931817444084e-15,
+      "net_wins": 54,
+      "operation": "field_train",
+      "promoted_at": 1784834628.537525,
+      "replication_evidence": {
+        "effect_rate": 0.140625,
+        "losses": 2,
+        "mcnemar_p_value": 5.9396931817444084e-15,
+        "net_wins": 54,
+        "sample_count": 384,
+        "validation_hash": "9ebfb2e4ad0cc8f19cd0034f8c91bf6ac9184b856ffccde30f94ef18a6bf3c5e",
+        "wins": 56
+      },
+      "root_after": "1c179f0c0c61271e915d7f696675e6d53d6f4523da3c34380b9b50b5556f86db",
+      "root_before": "6268e5c69c08417d0ce6327fc1cc7f90d79f6ee57d3537ebd4752c0812f2ce56",
+      "rotation_phase_after": null,
+      "rotation_phase_before": null,
+      "round_compute": {
+        "accepted_candidates": 4,
+        "candidate_searches": 4,
+        "contributed_worker_hours": 4.166666666666667e-06,
+        "contributed_worker_seconds": 0.015,
+        "promoted_candidates": 1,
+        "replay_reports": 1,
+        "replication_verification_reports": 2,
+        "search_reports": 4,
+        "search_yield": 0.25,
+        "selection_verification_reports": 8
+      },
+      "sample_count": 384,
+      "samples_by_class": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "selection_evidence": {
+        "effect_rate": 0.14583333333333334,
+        "losses": 0,
+        "mcnemar_p_value": 1.3877787807814586e-17,
+        "net_wins": 56,
+        "sample_count": 384,
+        "validation_hash": "2dfe511ab1fce5ff67581e5db7160660df18a759fd72495b41dc57ebe4fec263",
+        "wins": 56
+      },
+      "trainer_nodes": [
+        "e7c359c47cff2f189846"
+      ],
+      "validation_hash": "9ebfb2e4ad0cc8f19cd0034f8c91bf6ac9184b856ffccde30f94ef18a6bf3c5e",
+      "verifier_nodes": [
+        "7085dd36e2c312bec61c",
+        "a3aa2b1cfeaa5d491335"
+      ],
+      "wins": 56
+    },
+    "holdout_rotation_required_after_round": true,
+    "replay_node": "47da83864ddbe920da0f",
+    "replication_evidence": {
+      "effect_rate": 0.140625,
+      "losses": 2,
+      "mcnemar_p_value": 5.9396931817444084e-15,
+      "net_wins": 54,
+      "sample_count": 384,
+      "validation_hash": "9ebfb2e4ad0cc8f19cd0034f8c91bf6ac9184b856ffccde30f94ef18a6bf3c5e",
+      "wins": 56
+    },
+    "replication_hash": "9ebfb2e4ad0cc8f19cd0034f8c91bf6ac9184b856ffccde30f94ef18a6bf3c5e",
+    "replication_verifier_nodes": [
+      "7085dd36e2c312bec61c",
+      "a3aa2b1cfeaa5d491335"
+    ],
+    "root_after": "1c179f0c0c61271e915d7f696675e6d53d6f4523da3c34380b9b50b5556f86db",
+    "root_before": "6268e5c69c08417d0ce6327fc1cc7f90d79f6ee57d3537ebd4752c0812f2ce56",
+    "search_candidate_hashes": [
+      "82da7dc13db6f39a80bf7f435ba17b00fd3a40da5aeed9b6f6881d4b53c9b54a",
+      "6be1be399d2b25bcd25153ca7f10d2ef02c04522e51bf9d5f9b6f4afd7d270b1",
+      "e80c1e651bd2fdbb3c06c988ed669218f36c85f08b02eb3afec16bc15ea22e2d",
+      "ca009a4e926b4782dad06147a8e17181d4f4dd70e4591a8e0219259d28acfcb4"
+    ],
+    "search_seeds": [
+      7,
+      1016,
+      2025,
+      3034
+    ],
+    "selection_evidence": {
+      "effect_rate": 0.14583333333333334,
+      "losses": 0,
+      "mcnemar_p_value": 1.3877787807814586e-17,
+      "net_wins": 56,
+      "sample_count": 384,
+      "validation_hash": "2dfe511ab1fce5ff67581e5db7160660df18a759fd72495b41dc57ebe4fec263",
+      "wins": 56
+    },
+    "selection_hash": "2dfe511ab1fce5ff67581e5db7160660df18a759fd72495b41dc57ebe4fec263",
+    "selection_verifier_nodes": [
+      "158b525f6fce2941bc67",
+      "35015015073b47a6e9a4"
+    ],
+    "task_modes": [
+      "final-replication",
+      "global-verification",
+      "replay-audit",
+      "search"
+    ],
+    "trainer_nodes": [
+      "e7c359c47cff2f189846"
+    ],
+    "trainer_payload_contains_validation": false
+  },
+  "proof": "dendriswarm-v0.6.0-trainable-native10",
+  "schema_and_composition": {
+    "composed_root_changed": true,
+    "conflict_free": true,
+    "corrected_alpha": 0.0025,
+    "full_bundle_bytes": 24436,
+    "noise_p_value": 0.5,
+    "operation_schema_rejected_cross_tissue_patch": true,
+    "sparse_delta_bytes": 15567,
+    "strong_p_value": 0.00024414062500000016
+  },
+  "scope": "Protocol mechanics and synthetic-fixture learning only; no external benchmark accuracy claim."
+}

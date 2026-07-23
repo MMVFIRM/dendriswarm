@@ -1,0 +1,44 @@
+services:
+  coordinator:
+    build: .
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    command: ["coordinator", "--host", "0.0.0.0", "--port", "8787", "--state", "/state", "--bootstrap", "--enable-leverage"]
+    ports:
+      - "8787:8787"
+    restart: unless-stopped
+    volumes:
+      - coordinator-state:/state
+
+  seed-small:
+    build: .
+    command: ["seed", "--coordinator", "http://coordinator:8787", "--state", "/seed", "--share", "10", "--task-types", "exploration,verification"]
+    depends_on: [coordinator]
+    restart: unless-stopped
+    volumes:
+      - seed-small-state:/seed
+
+  seed-medium:
+    build: .
+    command: ["seed", "--coordinator", "http://coordinator:8787", "--state", "/seed", "--share", "25"]
+    depends_on: [coordinator]
+    restart: unless-stopped
+    volumes:
+      - seed-medium-state:/seed
+
+  seed-large:
+    build: .
+    command: ["seed", "--coordinator", "http://coordinator:8787", "--state", "/seed", "--share", "60"]
+    depends_on: [coordinator]
+    restart: unless-stopped
+    volumes:
+      - seed-large-state:/seed
+
+volumes:
+  coordinator-state:
+  seed-small-state:
+  seed-medium-state:
+  seed-large-state:

@@ -1,0 +1,101 @@
+{
+  "audit_checkpoint": {
+    "checkpoint": {
+      "events": 47,
+      "format": "dendriswarm.audit-checkpoint.v1",
+      "head": "ee87f32f2ec09f20035d44453115028fdbd1e03bbc164156c1fb296513c616b3",
+      "issued_at": 1784773132.0992892,
+      "valid": true
+    },
+    "coordinator_public_key": "yhLt0WPzayM8Bsi0QcrUFdiLr0wZybk0iiofq/qZsoU=",
+    "signature": "9WgpSAb4OzV03VAarisTNRmks/Ezksf7Oh8WerzlMhZQvRzrtAsuQTumlivvr0OuvwZzNAI7MU/Z476LWJ63Ag=="
+  },
+  "format": "dendriswarm.local-http-run.v2",
+  "inference": {
+    "correct": true,
+    "expected_label": 9,
+    "output": {
+      "activation_fraction": 0.025,
+      "active_branches": 3,
+      "confidence": 0.9998030388076017,
+      "prediction": 9,
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.00019696119239835956,
+        0.0,
+        0.9998030388076017
+      ],
+      "total_branches": 120
+    },
+    "task_id": "8951da0a5e624ec5a0400222af803843"
+  },
+  "processes": {
+    "coordinator": 1,
+    "seeds": 3
+  },
+  "server_errors_detected": false,
+  "stats": {
+    "active_nodes": 3,
+    "assigned_tasks": 0,
+    "audit": {
+      "events": 47,
+      "head": "ee87f32f2ec09f20035d44453115028fdbd1e03bbc164156c1fb296513c616b3",
+      "valid": true
+    },
+    "benchmark": {
+      "accuracy": {
+        "dendriswarm_reference_tissue": 0.9888888888888889,
+        "knn_3": 0.9833333333333333,
+        "logistic_regression": 0.9722222222222222,
+        "majority": 0.10277777777777777,
+        "nearest_centroid": 0.8611111111111112
+      },
+      "activation_fraction": 0.00625,
+      "active_branches": 1,
+      "claim_boundary": "Accuracy and structural sparsity only; no wall-clock speedup claim.",
+      "config": {
+        "branches": 160,
+        "iterations": 15,
+        "seed": 7,
+        "temperature": 0.18,
+        "top_k": 1
+      },
+      "dataset": "sklearn-digits-8x8-v1",
+      "samples": 1797,
+      "split_seed": 42,
+      "total_branches": 160
+    },
+    "candidates": 10,
+    "canonical": {
+      "artifact_hash": "c1a2f5589aec99c0bd93b64366bab2b628a3aeecd6e37aebf083d68edeb413bf",
+      "config": {
+        "branches": 120,
+        "iterations": 15,
+        "seed": 130,
+        "temperature": 0.18,
+        "top_k": 3
+      },
+      "hidden_accuracy": 0.9916666666666667,
+      "test_accuracy": 0.9916666666666667,
+      "train_accuracy": 0.9909533750869868,
+      "verification_quorum": 2,
+      "verifications": 2
+    },
+    "completed_tasks": 41,
+    "credit_supply": 103.8,
+    "credit_supply_units": 103800,
+    "datasets_approved": 1,
+    "datasets_pending": 0,
+    "failed_tasks": 0,
+    "nodes": 3,
+    "queued_tasks": 0,
+    "verification_records": 20,
+    "verified_candidates": 9
+  }
+}

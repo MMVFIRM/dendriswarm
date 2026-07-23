@@ -1,0 +1,113 @@
+{
+  "all_gates_pass": true,
+  "claim_boundary": "Demonstrates portable signed resource matching, low-resource CPU scouting, hot-reloaded owner policy, best-fit scheduling, lease renewal, and seed-only dependency separation. Resource limits remain application-level rather than OS-enforced.",
+  "elapsed_seconds": 1.941,
+  "evidence": {
+    "five_percent_limits": {
+      "cpu_threads": 1,
+      "disk_mb": 1000,
+      "duty_cycle": 0.4,
+      "memory_mb": 2000,
+      "paused": false
+    },
+    "hot_reload_policy": {
+      "allow_on_battery": false,
+      "allowed_task_kinds": [
+        "exploration",
+        "verification"
+      ],
+      "cpu_percent": 60,
+      "disk_limit_mb": 2048,
+      "max_system_cpu_percent": 95,
+      "max_task_seconds": 900,
+      "memory_limit_mb": null,
+      "memory_percent": 40,
+      "min_battery_percent": 30,
+      "paused": false
+    },
+    "low_resource_task": {
+      "cpu_count": 1,
+      "credit_units": 1000,
+      "kind": "exploration",
+      "machine": "arm64",
+      "memory_mb": 768,
+      "requirements": {
+        "backend": "numpy-cpu",
+        "checkpointable": false,
+        "estimated_runtime_seconds": 2,
+        "hard_timeout_seconds": 12,
+        "max_artifact_bytes": 250397,
+        "max_memory_mb": 256,
+        "min_cpu_threads": 1,
+        "min_disk_mb": 1,
+        "min_memory_mb": 96,
+        "preferred_cpu_threads": 1,
+        "required_tags": [
+          "portable-numpy-v1",
+          "deterministic-v2"
+        ],
+        "resource_class": "tiny",
+        "supported_machines": []
+      }
+    },
+    "machine_eligibility": {
+      "aarch64": {
+        "eligible": true,
+        "reason": "eligible"
+      },
+      "amd64": {
+        "eligible": true,
+        "reason": "eligible"
+      },
+      "arm64": {
+        "eligible": true,
+        "reason": "eligible"
+      },
+      "x86_64": {
+        "eligible": true,
+        "reason": "eligible"
+      }
+    }
+  },
+  "format": "dendriswarm.heterogeneous-seeding-proof.v1",
+  "gates": [
+    {
+      "name": "no-accelerator-required",
+      "pass": true
+    },
+    {
+      "name": "one-core-arm-model-scouting",
+      "pass": true
+    },
+    {
+      "name": "slow-node-signed-lease-renewal",
+      "pass": true
+    },
+    {
+      "name": "low-resource-replicated-work-accepted-and-credited",
+      "pass": true
+    },
+    {
+      "name": "mainstream-cpu-architecture-portability",
+      "pass": true
+    },
+    {
+      "name": "atomic-hot-reload-pause-resume",
+      "pass": true
+    },
+    {
+      "name": "best-fit-preserves-small-work",
+      "pass": true
+    },
+    {
+      "name": "sub-one-core-share-uses-duty-cycle",
+      "pass": true
+    },
+    {
+      "name": "seed-runtime-does-not-import-coordinator-stack",
+      "pass": true,
+      "stderr": ""
+    }
+  ],
+  "version": "0.4.0"
+}

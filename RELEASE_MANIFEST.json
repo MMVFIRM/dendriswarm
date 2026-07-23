@@ -1,0 +1,213 @@
+{
+  "build_artifacts": {
+    "source_distribution": {
+      "filename": "dendriswarm-0.8.0.tar.gz",
+      "packaged_test_run": true,
+      "sha256_recorded_externally": true
+    },
+    "wheel": {
+      "filename": "dendriswarm-0.8.0-py3-none-any.whl",
+      "installed_smoke_test": true,
+      "sha256_recorded_externally": true
+    }
+  },
+  "claim_boundary": "One-command loopback dashboard and package-optimization layer over the real CIFAR-100 campaign. Evidence supports token-protected local configuration, actual SeedPolicy hot reload, managed contributor/coordinator processes, authenticated campaign setup and queue controls, live model/routing/credit/log telemetry, official-format CIFAR-100 ingestion, trainable Native10 tissues, trainer-invisible all-class selection and replication, and exact paired gates. The official archive was not available in the packaging environment, so this release does not claim a new CIFAR-100 accuracy, baseline superiority, convergence, Sybil resistance, remote multi-tenant administration, or positive public-scale economics.",
+  "format": "dendriswarm.release-manifest.v8.0",
+  "generated_at_utc": "2026-07-23T19:27:22.415902+00:00",
+  "name": "DendriSwarm",
+  "runtime": {
+    "platform": "Linux-6.12.13-x86_64-with-glibc2.41",
+    "python": "3.13.5"
+  },
+  "source_files": {
+    "count": 117,
+    "exclusions": [
+      "RELEASE_MANIFEST.json (self-reference)",
+      "dist/, build/, generated *.egg-info/",
+      "cache directories, VCS metadata, and bytecode",
+      "CIFAR-100 archive and prepared dataset arrays"
+    ],
+    "sha256": {
+      ".github/workflows/ci.yml": "b8df4cc08a674b78eaf2ecc3d409b61edf9a632f243fc151ee69c57cb33c6f47",
+      ".gitignore": "8fb29ec58bce70d00a454b36f31ab9ec084fceaebcd6e59489151b33b00357c5",
+      "CONTRIBUTING.md": "991fb861f266870b9a41c6c6275a374681314f15d112924e2d730595b601dbb5",
+      "DATA_LICENSES.md": "62371ebce4ae55d8736b31502a5b9964cfeeabdefb1ee259aece6f3c78d491b1",
+      "Dockerfile": "c8095a849ef3ecc680f173e1a25d96076129b7256d63e901d355c8eab79025e7",
+      "LICENSE": "abd90d38571b0ac782403d2714f4c299e8652529194314fd3f7f1df8b8b56714",
+      "MANIFEST.in": "1a54fb0ef532871035496712ff8ed997be27780af2ce4b97b1146e58c5923ddb",
+      "Makefile": "29539be63bd65e6cbd22b5f7f6b5f523d5531c6397254ade3ba22f524712697d",
+      "README.md": "8614f58d5d8b7d203b9bd39e8095793f3366ab38ac61fa42b1d10ad13de68863",
+      "RELEASE_NOTES.md": "d3a2b2474a0014476b0d0f982d9883480259b636f1364a3556e913a4397186f5",
+      "SECURITY.md": "984385689d9e4b9cbd540a2aaea34bd17e1d85bf3792d0fd961e73f3a9b4d235",
+      "docker-compose.yml": "6da9cfec136b94e82ea20bdc045b12b849ebde6efb746a8ef56732fbfe20269c",
+      "docs/ARCHITECTURE.md": "002ab3b2439399772eee5193bf3fc4334ded93f7904cfce5a775655636ca7bd9",
+      "docs/ARCHITECTURE_V03.md": "05a3daa6159520f19b17955736887613f9319515120053ff7481c8c62f317b3f",
+      "docs/CIFAR100_SWARM_V07.md": "b6b0094b2b7d23f02563e163a36a8bbc0abb7aa1e5e9906c2938d68cf14fb52f",
+      "docs/CLAIMS.md": "e0ff7dd8115b6943009b12d53e036908fbc56e0bbaf78bb869881c2b8a399a64",
+      "docs/CLAIMS_V03.md": "3f647e22329f95e9ef98716c875a368a3fbc8ced601b5db019ac50aaec651eb1",
+      "docs/CRITIQUE_RESPONSE_V032.md": "2067e90988851d4fb2662dfebaea0cc90cde8fe6d5c3b11472fcea9c90ffa727",
+      "docs/DASHBOARD_V08.md": "9fbb45882668f62adf5db971b6843d713c2651e0da579ef65b8bd7c3f6d202bd",
+      "docs/HETEROGENEOUS_SEEDING.md": "d8debf4f53ea8d358e906fba74f3d77d349e414a86c2c0616d5b2969e42a06a4",
+      "docs/HOSTILE_PARTICIPATION_V041.md": "a1c538f8ffb1c8f37d769be907c6465b9f36350d8188226edc0c737180e36c14",
+      "docs/LOCAL_HTTP_RUN.json": "1c90cb9dbef4246ed1cd38cc7fc90dc1e79b07f9255c0bc245205ec02502df8b",
+      "docs/PROOF_OF_FUNCTION.md": "dcbd4a610c0414f70bbc2d26d07fa1ddff989100e47bfb017a6b7c0e61626c3a",
+      "docs/PROOF_RUN.json": "fc582c891440a2035d224153cad41585f112eefd6cdf2e38d8879396accc0392",
+      "docs/PROOF_RUN_V03.json": "6fc913ef57041958759254d3c0b8c1b1e698caa3750af03e7837259fbe2f9d94",
+      "docs/PROOF_RUN_V04.json": "2044aaf30233e313303940b399edaafd4714b0dd2e491b1ac8e9a27657867ab1",
+      "docs/PROOF_RUN_V041.json": "bd6b2c6180a12909825649651b46f73095d6698326ae646ba92ad6b4f6518c2a",
+      "docs/PROOF_RUN_V051.json": "6d0895d2eb5537260c54cfb5ccfc3cb20350cad152fd5b024fa25c3980a4a6c9",
+      "docs/PROOF_RUN_V06.json": "d049ad9475f99115a6007531315165305468be4bc56b74c615bc575d606a4a42",
+      "docs/PROOF_RUN_V07.json": "ed6db0ffee1c5d148f09825c9ff74525d345476f4686df2eebb2bab0d4b66f05",
+      "docs/PROOF_RUN_V08.json": "5b3f6e1296cea840db4ca30c69601049007650a1c19f000d9b715bc9e832f8f5",
+      "docs/REAL_DENDRITRON_V05.md": "16fee9bf0ae42675a01c8e0ac8639f03791b11c6f0317ebfdf45e68daa93696d",
+      "docs/ROADMAP.md": "52ff42497fbcaaacafdbb0c44cb81e70c39a776bd185ccaae2e1d194d55c400f",
+      "docs/TRAINABLE_NATIVE10_V06.md": "968cddf2805358ce957ba6f3f9d7efe102041c934c7f050519e44beee65af5c1",
+      "launch-dashboard.bat": "ba1560ede5e2092f8dd2f84fc755332a5baea463072662222748e9ab0adfebf6",
+      "launch-dashboard.sh": "d96ab2d314d7641106d3fdfe592145d6b8c7036cdbe2723ea319c60fcf08d01a",
+      "launch-operator-dashboard.bat": "5c6fdfb8e9932f5cfccaaef41752301aace2f24866766b3c01bd3923a1ba394f",
+      "launch-operator-dashboard.sh": "1cfe2fac8e40fbf93d6b78eb49533195ee725e2f46880ce9ba418c05f79e3a8a",
+      "pyproject.toml": "1c71dad4f7557e6ade7bedb483b228f49a217b270f48d0682a8abffa107cf396",
+      "scripts/build-release-manifest.py": "1dc05898d1ab75c2562fe222211bb787b5b54f12d39d9f87caa51203891e5571",
+      "scripts/local-demo.sh": "966110f23c4e06977956bdefe839804e5471334f42d5610285d0fc665b2c81ea",
+      "scripts/run-proof-v03.py": "f3af6cc82ea59f7fa776fc65279bf0d2de67ba8f552d2b5f2ab90e2d15e5856b",
+      "scripts/run-proof-v04.py": "6f3c62ecf38df03872cebadf42ec425d53bf63bce355d373b0308d12be247137",
+      "scripts/run-proof-v041.py": "b8d85eb17a2baee7bacb44e4ca883859d531b7ee51319a325513801f04407e43",
+      "scripts/run-proof-v051.py": "fa8fa27618ca82c2eaae89227ac16a8f2f46be022e77a2986c8750394c6fa5a9",
+      "scripts/run-proof-v06.py": "a81d97dba53ddfca66fed8ed272c78bce61421205b86fab5f8e32d4eaa3def8f",
+      "scripts/run-proof-v07.py": "5270f79ceb7dd52edabac4c748dc56964bd293ac7668f722e465134101b24e99",
+      "scripts/run-proof-v08.py": "943b0f9c8acd9fe4301411db0def1ded74f110b92612669276d0c3b989b97869",
+      "scripts/run-proof.py": "05b693a6d75ec0f504e02aa3f7ddbb6cd6a6c01ecd87702594014f802d11e87e",
+      "scripts/validate-proof-v03.py": "b99709880f98aabf15b4fbf43e5a8bdd5983ca84278c6d77ed256521f853fbb1",
+      "scripts/validate-proof-v04.py": "1d70baba2f72ee327347ea6fe61c4b95727616fa10cbba8a8cb6b5d1432d8513",
+      "scripts/validate-proof-v041.py": "4730f95ad61575531d33d7977a50ed5dcc29db27c5796f8d48908b90497720df",
+      "scripts/validate-proof-v051.py": "9d193c6ae7d25c0675b01ed5a434c86a7bfead3ff313902ff7fa2a83c9758248",
+      "scripts/validate-proof-v06.py": "91ea5dee1e9a304af1db59d99f0e2714a6a1b6a0ab573a580ede07a901012fa3",
+      "scripts/validate-proof-v07.py": "63d60d04232d65cff9aef3abeae8f3bbfe7bb35fd433f6fdbfd76bd47c40bdb4",
+      "scripts/validate-proof-v08.py": "6849c6db24c2c002949013989c842619d9b30c3d93f7104383e5b91f285becda",
+      "scripts/validate-proof.py": "13a6086f29fa94a6a32a24c31f4f7e8c8a2d309c957c68cb9aa3603512741097",
+      "src/dendriswarm/__init__.py": "88f95809c233bb35bb4f61ca0e499894c911239d5d04b7cd4713cf896adfc3d5",
+      "src/dendriswarm/__main__.py": "0c49ee826349fef3ae8eaf115d75d6457c986fd4cea52dc6a7b6c88b4c569bbc",
+      "src/dendriswarm/cli.py": "07e135b35eafd5b2db028d00fd8b607f6f73523f824813b9ca2af9d43153476e",
+      "src/dendriswarm/coordinator/app.py": "46f3b1f33a8c53da13dd08bc8197e8a0099f3c629285b8262ef9ba52bf4b780a",
+      "src/dendriswarm/coordinator/db.py": "91b046ab252de3f3883ffe3bab34461e164df358a4c674bec6c34ef5603f5ec8",
+      "src/dendriswarm/coordinator/service.py": "4c7b06ae65252c730e89c4b3d0f986f89da80c6e21840ac7a19f8dc0eee57d81",
+      "src/dendriswarm/core/crypto.py": "cf9304ae81ad96c8250d8632fee829108f993880689cfa7e832d9c3840d6909d",
+      "src/dendriswarm/core/limits.py": "8ed69bfe00515d858b8d623a5e5949f51bf4e25cd5b277db17acd58b4228265d",
+      "src/dendriswarm/core/models.py": "4054770c0884d853f0cc9225974a74ba5ded531ea762fbcf9329ac76358e0620",
+      "src/dendriswarm/core/resources.py": "32cec81bc49889db503390348f5761a2f1dac24fa1ea767785b8ae7919437db4",
+      "src/dendriswarm/dashboard/__init__.py": "3d3abbec4a21e5339070041c6ac837f90764b1e294f5538145570b3bb1a0ee5d",
+      "src/dendriswarm/dashboard/config.py": "54b8fb19526261b31809ba39f488732e1b8c2d755a584da09ecdc6ce3b057a23",
+      "src/dendriswarm/dashboard/runtime.py": "7fa897a5f85e4cdebe1b6c75d9d0fdf35c5384aa566b3224486dab28830e8546",
+      "src/dendriswarm/dashboard/server.py": "b1d12017248bb1504257c86fae90fec168426fba6be6c433e8aa8b1a5c75df7e",
+      "src/dendriswarm/dashboard/static/__init__.py": "10a258155bd791d20277722e336c68f563a2d7fdd4771940dc45434da484913f",
+      "src/dendriswarm/dashboard/static/index.html": "7f302743980745c2e5797b8835762f521df1a9bc7742b5538e0d31820c50ad95",
+      "src/dendriswarm/leverage/__init__.py": "7023e12a6c4655e15d57e85fe8c3165212111d805117df44cf12529e7496afeb",
+      "src/dendriswarm/leverage/epoch.py": "aca3e382a33475996970d0e58bcdc86297f715942886e1209b74a496bb0e90df",
+      "src/dendriswarm/leverage/ledger.py": "a06a17700a9cce74e70f49b1efd76cb6d952e93d2c583e023f5d08758f3d1845",
+      "src/dendriswarm/leverage/manifest.py": "06d668fd6362ea5c187b60c3a41bb756b71ed6dcfcb06d16d6422b8610e200c7",
+      "src/dendriswarm/leverage/search.py": "04acf985a65a13a5af92dcb3b9f30cb031d1bffdd8cf206d4c2ec6bd5f3d433b",
+      "src/dendriswarm/leverage/service.py": "2e59d0e3474e725a6ddf62a9d2e20121ec3c258aaf7b301c1b25f66a4376dec1",
+      "src/dendriswarm/leverage/stats.py": "31770c38cf4416a0cb2a50982e87bc67ccfb40594544af015a200a994879f7b1",
+      "src/dendriswarm/leverage/store.py": "7684597e0453462e08565c2a42d9e42e5c16e782a0b7acbb2899c9255416d5ee",
+      "src/dendriswarm/leverage/tissue.py": "23a7bc5ff8d50199bc3f7db570d40ffd78a4613837a943be6a40429cce16f043",
+      "src/dendriswarm/leverage/workload.py": "c6cfd49d2cb5d9ccc1fc08a43ce70bd040a554e6ac357feb941a00a8db29e36d",
+      "src/dendriswarm/tissues/__init__.py": "3b2bbbb94b790e4d7a5a229adb4130c4462b92cd9c0feba8147fa1a195e1f96f",
+      "src/dendriswarm/tissues/reference.py": "f3627f64140d56d4a945599322d25a467853e9a420791744453e8f4725912e82",
+      "src/dendriswarm/v5/__init__.py": "de955359628d29e0aa7ede2cf2855f9f09b5b4144583b528ff5944fce6f51a71",
+      "src/dendriswarm/v5/native10.py": "9085a83e90263d51bc6b42b2662440d58e4b7911f05fdf9137b2df4b400752c6",
+      "src/dendriswarm/v5/service.py": "47b995976d7a90eadd76e3ceb70366fdd0a33c96d591e9000d526e9a9fb3c5f1",
+      "src/dendriswarm/v5/validation.py": "e7b77e96d85b9f21beb8f551eee8e9b99e6aa37b841984e83f4a6a4ce08d27ac",
+      "src/dendriswarm/v6/__init__.py": "6516fdd8a626e38ce7a49bd9d206efdb01a781f9e0973fdde97c6825c18c2a9d",
+      "src/dendriswarm/v6/benchmark.py": "7c85370b38b0a94047f657d26a685d5002bfc6d2b2118fe70db5bda2e07c9671",
+      "src/dendriswarm/v6/native10.py": "27772385b33c4d30748555898f7f8e5ae78299c39cf1789ff145d83d564df9c1",
+      "src/dendriswarm/v6/service.py": "21d01ecfae828a5ccb439822fb59cdc282ee405bc5d598f39b0b1858842340f6",
+      "src/dendriswarm/v6/validation.py": "350bcc3f92935e063b6ed4432223354a2312976daf732c0c11479bc6a2e85a06",
+      "src/dendriswarm/v7/__init__.py": "5a812efcff48e75d0272d8816787e948662d457882676c1aff842ffe79b177f3",
+      "src/dendriswarm/v7/campaign.py": "71e4d0e24ddbd939870d6fa7234a9a8dbd13991f15c156848e14a6044227cebd",
+      "src/dendriswarm/v7/cifar100.py": "2896e4f7227a8f403f27bcafe6589abad8acec12db965e0bcdc66260f49084fc",
+      "src/dendriswarm/v7/routing.py": "2d8a031409971af40b603d1df93300408ba8659c2babef0b2c9597f69d79efe7",
+      "src/dendriswarm/worker/config.py": "66d39114e84f0b551599e88f38b6d39eeccd7ebcfb48480ab63aede747fe4331",
+      "src/dendriswarm/worker/executor.py": "9c6b6f19f09f40854f18935ac9442225179a96c81e5461ce9b313bfe1a7ab167",
+      "src/dendriswarm/worker/isolation.py": "cf2925850d43f8026891a4fad1215c20397e02992955c381d63d80628f261ee4",
+      "src/dendriswarm/worker/node.py": "6e874b82f30b856f38232d2f2786bc278227c510e41e50874c84d34ca4e3c1e2",
+      "src/dendriswarm/worker/resources.py": "70b2ec4ccfde85ab164e77c5135b20f21d5131e90e3192b08f139da7e54dce98",
+      "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests/helpers.py": "e78ba8ae25e51c783c0792aeb73d7d493e3a9364a4d430afb2e5a15435e5ba1a",
+      "tests/test_adversarial_v041.py": "45780694861160aa5020246df81c9d94521004712e47959082266575611ef9ff",
+      "tests/test_cifar100_v7.py": "2e07dd2967e4959eee2462b15f6423faff818c2009661b5f032c038864d119c9",
+      "tests/test_crypto.py": "92efa9be51bc1a6b5b102444eb778b1e60ca309415cec7dbac5500489c62545b",
+      "tests/test_dashboard_v8.py": "6de685278f83f06fdb5249cfedd5ef3031c41491e4293f4bd37f06955079822d",
+      "tests/test_integration.py": "03700b25258e13fb124030d39e3099579dad460e8e05fe67a306397cef646b19",
+      "tests/test_leverage.py": "45dc9779ed838faba623283735c7ecf38ddbc740bc85eaeb8dfdcb0fa92b0281",
+      "tests/test_native10_v5.py": "2256cf2f3f518d619dc7ec48588b99d19109e3e972c6074c8703ed28573235b0",
+      "tests/test_native10_v51.py": "fac63d01c1b719c8a51850839222d796266eb4fc49061404a86a5a88de2da37c",
+      "tests/test_native10_v6.py": "8c289655ed085240689990a6952b60763132fe49f3efcde5a7ed67c51b142d5a",
+      "tests/test_resources.py": "92a6fd1cb0179abcc0f9de0a968797933c6877a471f7a5c904eecc8a6ec7cb15",
+      "tests/test_security.py": "2efde836dca988c511254841738f1f957aa9a25ccbb19864fc5dc8921e30ba12",
+      "tests/test_tissue.py": "42838d9e45c7729d123977ed6f77131b35f2f677fe983de996114bb8582f445f"
+    }
+  },
+  "verification": {
+    "compileall": {
+      "passed": true,
+      "paths": [
+        "src",
+        "tests",
+        "scripts"
+      ]
+    },
+    "docker_executed_in_packaging_environment": false,
+    "official_cifar100_archive_executed_in_packaging_environment": false,
+    "pytest": {
+      "collected": 130,
+      "execution_note": "Test groups were also run independently to avoid environment command cutoffs.",
+      "failed": 0,
+      "passed": 130
+    },
+    "v0.2_transport_proof": {
+      "audit_valid": true,
+      "completed_tasks": 61,
+      "failed_tasks": 0,
+      "validated": true
+    },
+    "v0.3.2_locality_leverage_proof": {
+      "gate_count": 12,
+      "validated": true
+    },
+    "v0.4.0_heterogeneous_seeding_proof": {
+      "gate_count": 9,
+      "validated": true
+    },
+    "v0.4.1_hostile_participation_proof": {
+      "gate_count": 11,
+      "validated": true
+    },
+    "v0.5.1_all_class_proof": {
+      "gate_count": 15,
+      "validated": true
+    },
+    "v0.6.0_trainable_native10_proof": {
+      "gate_count": 20,
+      "parameter_count": 4898812,
+      "reachable_float_fraction": 1.0,
+      "reachable_float_parameters": 4898812,
+      "validated": true
+    },
+    "v0.7.0_cifar100_campaign_proof": {
+      "external_benchmark_accuracy_claim": false,
+      "gate_count": 16,
+      "real_archive_mode": {
+        "executed": false,
+        "reason": "no official archive supplied"
+      },
+      "validated": true
+    },
+    "v0.8.0_dashboard_proof": {
+      "gate_count": 12,
+      "local_control_surface": true,
+      "remote_multi_tenant_admin": false,
+      "validated": true
+    }
+  },
+  "version": "0.8.0"
+}

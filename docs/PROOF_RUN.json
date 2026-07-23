@@ -1,0 +1,126 @@
+{
+  "audit_checkpoint": {
+    "checkpoint": {
+      "events": 68,
+      "format": "dendriswarm.audit-checkpoint.v1",
+      "head": "2fcbf90382aa44c38edc564679c791d1a4c136aabb628dfc46a4d0b06455142f",
+      "issued_at": 1784816599.039535,
+      "valid": true
+    },
+    "coordinator_public_key": "okKz56X/6iCOH8XTjI2hl8ytBnD76XOzEY0aETLKy0k=",
+    "signature": "M5h8EPJRNKfGXeqL2zx7fT21nBlAKrgpI/EJlrMe2X11086tQP6M9IV+yHuymO+9Ti5KzeKXuXQMtS6VPSRvDA=="
+  },
+  "elapsed_seconds": 13.904,
+  "format": "dendriswarm.proof-run.v2",
+  "inference": {
+    "correct": true,
+    "expected_label": 9,
+    "output": {
+      "activation_fraction": 0.025,
+      "active_branches": 3,
+      "confidence": 0.9998030388074535,
+      "prediction": 9,
+      "runtime": {
+        "backend": "numpy-cpu",
+        "cpu_threads": null,
+        "machine": "x86_64",
+        "python": "3.13.5"
+      },
+      "scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.00019696119254664245,
+        0.0,
+        0.9998030388074535
+      ],
+      "total_branches": 120
+    },
+    "sample_index": 0,
+    "task_id": "11649f32bce94eb98a36d3c485ca4405"
+  },
+  "seed_nodes": 4,
+  "stats": {
+    "active_nodes": 4,
+    "architectures": {
+      "unknown": 4
+    },
+    "assigned_tasks": 0,
+    "audit": {
+      "events": 68,
+      "head": "2fcbf90382aa44c38edc564679c791d1a4c136aabb628dfc46a4d0b06455142f",
+      "valid": true
+    },
+    "benchmark": {
+      "accuracy": {
+        "dendriswarm_reference_tissue": 0.9888888888888889,
+        "knn_3": 0.9833333333333333,
+        "logistic_regression": 0.9722222222222222,
+        "majority": 0.10277777777777777,
+        "nearest_centroid": 0.8611111111111112
+      },
+      "activation_fraction": 0.00625,
+      "active_branches": 1,
+      "claim_boundary": "Accuracy and structural sparsity only; no wall-clock speedup claim.",
+      "config": {
+        "branches": 160,
+        "iterations": 15,
+        "seed": 7,
+        "temperature": 0.18,
+        "top_k": 1
+      },
+      "dataset": "sklearn-digits-8x8-v1",
+      "samples": 1797,
+      "split_seed": 42,
+      "total_branches": 160
+    },
+    "candidates": 10,
+    "canonical": {
+      "artifact_hash": "d8e1b6e2b863502dbf574fe8a34e5419800fef49b800b91245931a423546c7ca",
+      "config": {
+        "branches": 120,
+        "iterations": 15,
+        "seed": 130,
+        "temperature": 0.18,
+        "top_k": 3
+      },
+      "hidden_accuracy": 0.9916666666666667,
+      "test_accuracy": 0.9916666666666667,
+      "train_accuracy": 0.9909533750869868,
+      "verification_quorum": 2,
+      "verifications": 2
+    },
+    "completed_tasks": 61,
+    "credit_supply": 179.8,
+    "credit_supply_units": 179800,
+    "datasets_approved": 5,
+    "datasets_pending": 0,
+    "failed_tasks": 0,
+    "native10": {
+      "active_round": null,
+      "canonical_root": null,
+      "contribution_count": 0,
+      "initialized": false
+    },
+    "nodes": 4,
+    "paused_nodes": 0,
+    "queued_tasks": 0,
+    "verification_modes": {
+      "exploration": "replicated-consensus",
+      "inference": "proof-carrying-output-plus-secret-spot-audit",
+      "training": "replicated-artifact-consensus",
+      "verification": "independent-replicated-consensus"
+    },
+    "verification_records": 20,
+    "verified_candidates": 9
+  },
+  "task_counts_before_inference": {
+    "exploration": 20,
+    "training": 20,
+    "verification": 20
+  }
+}

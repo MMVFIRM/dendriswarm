@@ -1,0 +1,379 @@
+{
+  "baseline_training_included": false,
+  "format": "dendriswarm.proof.v051",
+  "gate_count": 15,
+  "gates": {
+    "all_class_promotion_evidence": {
+      "evidence": {
+        "losses_by_class": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sample_count": 240,
+        "samples_by_class": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ]
+      },
+      "pass": true
+    },
+    "atomic_one_active_lease": {
+      "evidence": {
+        "active_leases": 1,
+        "partial_unique_index": true,
+        "successful_claims": 1
+      },
+      "pass": true
+    },
+    "audit_chain_and_receipts": {
+      "evidence": {
+        "all_receipts_accepted": true,
+        "audit_chain_valid": true
+      },
+      "pass": true
+    },
+    "claim_scope_is_precise": {
+      "evidence": {
+        "demonstrated": "Native10 topology, tensor mutation, all-class promotion gate, deterministic composition, provenance",
+        "not_demonstrated": "historical trained checkpoint accuracy or baseline retraining"
+      },
+      "pass": true
+    },
+    "exact_native10_profile_executed": {
+      "evidence": {
+        "archive_import_root_equal": true,
+        "baseline_training_included": false,
+        "checkpoint_bytes": 23933844,
+        "class_metric_count": 100,
+        "composed_root_changed": true,
+        "config": {
+          "active_experts_per_update": 15,
+          "branch_width": 12,
+          "categories": 20,
+          "classes": 100,
+          "expert_branches": 4,
+          "experts_per_category": 45,
+          "field_blocks": 8,
+          "input_width": 3072,
+          "representation_width": 96,
+          "scout_projection_width": 3,
+          "scouts_per_category": 50,
+          "seed": 7,
+          "top_categories": 4
+        },
+        "delta_bytes": 1105903,
+        "full_global_verification_seconds": 1.5529507589999412,
+        "historical_trained_weights_exercised": false,
+        "imported_root": "b9fcb5c9eeca0e53d57bdeb18511fd330066ff1f1d0a21d378f27b93e9d3dba6",
+        "initialize_seconds": 0.06535590500061517,
+        "initialized_root": "b9fcb5c9eeca0e53d57bdeb18511fd330066ff1f1d0a21d378f27b93e9d3dba6",
+        "mutation_seconds": 0.12216036400059238,
+        "parameter_count": 4898712,
+        "samples_by_class": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "trainer_bundle_bytes": 1116811,
+        "validation_bytes": 49385,
+        "validation_samples": 100
+      },
+      "pass": true
+    },
+    "exact_profile_full_global_verification_executed": {
+      "evidence": {
+        "class_metric_count": 100,
+        "seconds": 1.5529507589999412,
+        "validation_samples": 100
+      },
+      "pass": true
+    },
+    "exact_tensor_archive_import_conformance": {
+      "evidence": {
+        "historical_trained_weights_exercised": false,
+        "imported_root": "b9fcb5c9eeca0e53d57bdeb18511fd330066ff1f1d0a21d378f27b93e9d3dba6",
+        "initialized_root": "b9fcb5c9eeca0e53d57bdeb18511fd330066ff1f1d0a21d378f27b93e9d3dba6"
+      },
+      "pass": true
+    },
+    "globally_beneficial_candidate_promoted": {
+      "evidence": {
+        "max_class_loss": 0,
+        "net_wins": 42,
+        "root_after": "8fafcc3b10adca85fe9fe4f7c018997fffe764da10402bcf97fc7b610acead58",
+        "root_before": "06bdfef6214023a72922640d365062bec96a1a4491ca36c04965b4f27548d32e"
+      },
+      "pass": true
+    },
+    "independent_quorum": {
+      "evidence": {
+        "trainers": [
+          "0944ef9a2f3dadc9021f",
+          "f8fee80fdc62af5f0e01"
+        ],
+        "verifiers": [
+          "329d5529dd835e1e3218",
+          "6439331ddf345b8ee7bf"
+        ]
+      },
+      "pass": true
+    },
+    "locally_positive_globally_harmful_candidate_rejected": {
+      "evidence": {
+        "candidate_status": "rejected",
+        "global_max_class_loss": [
+          10,
+          10
+        ],
+        "global_verifier_net_wins": [
+          -1,
+          -1
+        ],
+        "local_trainer_net_wins": [
+          56,
+          56
+        ],
+        "promoted": false,
+        "reason": "verification-gate-failed",
+        "root_after": "06bdfef6214023a72922640d365062bec96a1a4491ca36c04965b4f27548d32e",
+        "root_before": "06bdfef6214023a72922640d365062bec96a1a4491ca36c04965b4f27548d32e"
+      },
+      "pass": true
+    },
+    "request_result_size_boundaries_align": {
+      "evidence": {
+        "envelope_headroom_bytes": 262144,
+        "http_body_bytes": 8650752,
+        "result_output_bytes": 8388608,
+        "worker_request_bytes": 8650752
+      },
+      "pass": true
+    },
+    "traceable_exact_composition": {
+      "evidence": {
+        "delta_hash": "f8e32d8acc11ba54a9e4db4c057763fb3e1d58198fe40811dbaee8f863a33ebd",
+        "int8_source_root": "8fafcc3b10adca85fe9fe4f7c018997fffe764da10402bcf97fc7b610acead58",
+        "root_after": "8fafcc3b10adca85fe9fe4f7c018997fffe764da10402bcf97fc7b610acead58"
+      },
+      "pass": true
+    },
+    "trainer_invisible_holdout": {
+      "evidence": {
+        "mutation_payload_keys": [
+          "bundle",
+          "engine",
+          "global_validation_hash",
+          "mutation_quorum",
+          "required_tags",
+          "round_id",
+          "subset_seed",
+          "train_labels",
+          "train_representations",
+          "trainer_objective_scope",
+          "verification_quorum",
+          "work_key"
+        ],
+        "validation_status": {
+          "candidate_evaluations": 1,
+          "configured": true,
+          "counts_by_class": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "max_candidate_evaluations": 40,
+          "policy": {
+            "max_candidate_evaluations": 40,
+            "max_loss_per_class": 1,
+            "max_loss_rate_per_class": 0.2,
+            "min_samples_per_class": 5,
+            "minimum_net_wins": 1
+          },
+          "protocol_fixture_only": true,
+          "sample_count": 240,
+          "sha256": "bfd46a7f188d14e856c2ba16497b99719fcf09b563e1c5f4da0584e9b21cece2",
+          "source": "synthetic-all-class-protocol-fixture",
+          "split": "coordinator-private-global-validation",
+          "trainer_visible": false
+        }
+      },
+      "pass": true
+    },
+    "transfer_costs_disclosed": {
+      "evidence": {
+        "checkpoint_bytes": 23933844,
+        "checkpoint_cache_key": "content-addressed model root",
+        "delta_bytes": 1105903,
+        "trainer_bundle_bytes": 1116811,
+        "two_cold_verifier_checkpoint_bytes": 47867688,
+        "validation_bytes": 49385
+      },
+      "pass": true
+    },
+    "validation_reuse_is_bounded": {
+      "evidence": {
+        "candidate_evaluations": 1,
+        "configured": true,
+        "counts_by_class": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "max_candidate_evaluations": 40,
+        "policy": {
+          "max_candidate_evaluations": 40,
+          "max_loss_per_class": 1,
+          "max_loss_rate_per_class": 0.2,
+          "min_samples_per_class": 5,
+          "minimum_net_wins": 1
+        },
+        "protocol_fixture_only": true,
+        "sample_count": 240,
+        "sha256": "bfd46a7f188d14e856c2ba16497b99719fcf09b563e1c5f4da0584e9b21cece2",
+        "source": "synthetic-all-class-protocol-fixture",
+        "split": "coordinator-private-global-validation",
+        "trainer_visible": false
+      },
+      "pass": true
+    }
+  },
+  "historical_trained_weights_exercised": false,
+  "passed": true,
+  "purpose": "Prove a trainer-invisible, all-class promotion gate for real Native10 topology mutations.",
+  "version": "0.5.1"
+}

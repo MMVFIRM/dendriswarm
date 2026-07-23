@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  seed-portability:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.10", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install .
+      - run: dendriswarm doctor --state .seed-doctor
+      - run: dendriswarm-dashboard --help
+      - run: python -c "from dendriswarm.core.models import SeedPolicy; from dendriswarm.worker.config import SeedPolicyStore; print(SeedPolicy())"
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m compileall -q src tests scripts
+      - run: pytest
+      - name: Reproduce v0.2 transport proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/run-proof.py > /tmp/proof-v02.json
+      - name: Validate v0.2 proof
+        if: matrix.python-version == '3.13'
+        run: python scripts/validate-proof.py /tmp/proof-v02.json
+      - name: Reproduce v0.3.2 locality proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src DENDRISWARM_PROOF_SEED=12345 python scripts/run-proof-v03.py
+      - name: Validate v0.3.2 gates
+        if: matrix.python-version == '3.13'
+        run: python scripts/validate-proof-v03.py docs/PROOF_RUN_V03.json
+      - name: Reproduce v0.4.0 heterogeneous seeding proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/run-proof-v04.py
+      - name: Validate v0.4.0 seeding gates
+        if: matrix.python-version == '3.13'
+        run: python scripts/validate-proof-v04.py docs/PROOF_RUN_V04.json
+      - name: Reproduce v0.4.1 hostile participation proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/run-proof-v041.py
+      - name: Validate v0.4.1 hostile participation gates
+        if: matrix.python-version == '3.13'
+        run: python scripts/validate-proof-v041.py docs/PROOF_RUN_V041.json
+      - name: Reproduce v0.5.1 all-class Native10 contribution proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/run-proof-v051.py
+      - name: Validate v0.5.1 Native10 gates
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/validate-proof-v051.py
+      - name: Reproduce v0.6.0 Trainable Native10 proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/run-proof-v06.py
+      - name: Validate v0.6.0 Trainable Native10 gates
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/validate-proof-v06.py
+      - name: Reproduce v0.7.0 CIFAR-100 campaign proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/run-proof-v07.py
+      - name: Validate v0.7.0 CIFAR-100 campaign gates
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/validate-proof-v07.py
+      - name: Reproduce v0.8.0 dashboard proof
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/run-proof-v08.py
+      - name: Validate v0.8.0 dashboard gates
+        if: matrix.python-version == '3.13'
+        run: PYTHONPATH=src python scripts/validate-proof-v08.py
+      - name: Build wheel and source distribution
+        if: matrix.python-version == '3.13'
+        run: python -m build

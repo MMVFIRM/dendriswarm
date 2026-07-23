@@ -1,0 +1,537 @@
+{
+  "all_pass": true,
+  "claim_boundary": {
+    "baseline_training_included": false,
+    "external_benchmark_accuracy_claim": false,
+    "official_archive_executed_in_packaging_environment": false,
+    "real_cifar100_campaign_code": true,
+    "synthetic_fixture_used_for_accuracy_claim": false
+  },
+  "gates": [
+    {
+      "evidence": {
+        "config": {
+          "active_experts_per_update": 15,
+          "branch_width": 12,
+          "categories": 20,
+          "classes": 100,
+          "expert_branches": 4,
+          "experts_per_category": 45,
+          "field_blocks": 8,
+          "input_width": 3072,
+          "max_routed_categories": 8,
+          "memory_strength_init": 0.2,
+          "representation_width": 96,
+          "routing_expansion_margin": 0.15,
+          "scout_projection_width": 3,
+          "scouts_per_category": 50,
+          "seed": 7,
+          "top_categories": 4
+        },
+        "parameter_count": 4898812
+      },
+      "name": "exact_native10_executes",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "all_persistent_tensor_families_owned": true,
+        "all_trainable_parameter_families_reachable": true,
+        "format": "dendriswarm.native10-parameter-reachability.v2",
+        "operation_coverage_elements": {
+          "branch_train": 4454120,
+          "expert_train": 4545920,
+          "field_train": 48212,
+          "memory_train": 9800,
+          "repair": 4545920,
+          "scout_train": 296940
+        },
+        "persistent_state_elements": 120,
+        "reachable_float_fraction": 1.0,
+        "reachable_float_parameters": 4898812,
+        "tensors": {
+          "associative_counts": {
+            "kind": "state",
+            "operations": [
+              "memory_train"
+            ],
+            "reachable": true,
+            "shape": [
+              100
+            ]
+          },
+          "associative_memory": {
+            "kind": "trainable-float",
+            "operations": [
+              "memory_train"
+            ],
+            "reachable": true,
+            "shape": [
+              100,
+              96
+            ]
+          },
+          "associative_strength": {
+            "kind": "trainable-float",
+            "operations": [
+              "memory_train"
+            ],
+            "reachable": true,
+            "shape": [
+              100
+            ]
+          },
+          "category_bias": {
+            "kind": "trainable-float",
+            "operations": [
+              "field_train",
+              "scout_train"
+            ],
+            "reachable": true,
+            "shape": [
+              20
+            ]
+          },
+          "category_readout": {
+            "kind": "trainable-float",
+            "operations": [
+              "field_train",
+              "scout_train"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              96
+            ]
+          },
+          "expert_branch_bias": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "branch_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45,
+              4,
+              12
+            ]
+          },
+          "expert_branch_centers": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "branch_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45,
+              4,
+              12
+            ]
+          },
+          "expert_branch_health": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "branch_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45,
+              4
+            ]
+          },
+          "expert_branch_readout": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "branch_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45,
+              4,
+              12,
+              5
+            ]
+          },
+          "expert_branch_weights": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "branch_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45,
+              4,
+              96,
+              12
+            ]
+          },
+          "expert_gate_bias": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45
+            ]
+          },
+          "expert_gate_weights": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45,
+              96
+            ]
+          },
+          "expert_health": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "branch_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45
+            ]
+          },
+          "expert_local_bias": {
+            "kind": "trainable-float",
+            "operations": [
+              "expert_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20,
+              45,
+              5
+            ]
+          },
+          "field_bias": {
+            "kind": "trainable-float",
+            "operations": [
+              "field_train"
+            ],
+            "reachable": true,
+            "shape": [
+              8,
+              12
+            ]
+          },
+          "field_mixer": {
+            "kind": "trainable-float",
+            "operations": [
+              "field_train"
+            ],
+            "reachable": true,
+            "shape": [
+              96,
+              96
+            ]
+          },
+          "field_mixer_bias": {
+            "kind": "trainable-float",
+            "operations": [
+              "field_train"
+            ],
+            "reachable": true,
+            "shape": [
+              96
+            ]
+          },
+          "field_weights": {
+            "kind": "trainable-float",
+            "operations": [
+              "field_train"
+            ],
+            "reachable": true,
+            "shape": [
+              8,
+              384,
+              12
+            ]
+          },
+          "rotation_phase": {
+            "kind": "state",
+            "operations": [
+              "expert_train",
+              "branch_train",
+              "repair"
+            ],
+            "reachable": true,
+            "shape": [
+              20
+            ]
+          },
+          "scout_bias": {
+            "kind": "trainable-float",
+            "operations": [
+              "scout_train"
+            ],
+            "reachable": true,
+            "shape": [
+              1000,
+              3
+            ]
+          },
+          "scout_centers": {
+            "kind": "trainable-float",
+            "operations": [
+              "scout_train"
+            ],
+            "reachable": true,
+            "shape": [
+              1000,
+              3
+            ]
+          },
+          "scout_quality": {
+            "kind": "trainable-float",
+            "operations": [
+              "scout_train"
+            ],
+            "reachable": true,
+            "shape": [
+              1000
+            ]
+          },
+          "scout_weights": {
+            "kind": "trainable-float",
+            "operations": [
+              "scout_train"
+            ],
+            "reachable": true,
+            "shape": [
+              1000,
+              96,
+              3
+            ]
+          }
+        },
+        "total_persistent_tensor_elements": 4898932,
+        "trainable_float_parameters": 4898812
+      },
+      "name": "all_trainable_tensor_families_reachable",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "archive_md5": "eb9058c3a382ffc7106e4002c42a8d85",
+        "url": "https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz"
+      },
+      "name": "official_source_contract_committed",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "categories": 20,
+        "classes_per_category": [
+          5
+        ]
+      },
+      "name": "official_coarse_labels_define_native_colonies",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "replication": 2500,
+        "selection": 2500,
+        "train": 45000
+      },
+      "name": "campaign_split_is_450_25_25_per_class",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "block_means": [
+          -1.686274528503418,
+          -1.5294116735458374,
+          -1.372549057006836,
+          -1.2156864404678345,
+          -1.058823585510254,
+          -0.9019606709480286,
+          -0.7450980544090271,
+          -0.5882353186607361
+        ],
+        "layout": "spatial-patches-4x2-c3-h8-w16"
+      },
+      "name": "cifar_images_map_to_eight_spatial_field_tissues",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "expert_json_bytes": 47964,
+        "field_json_bytes": 387165,
+        "field_transport_dtype": "uint8",
+        "scout_json_bytes": 47977
+      },
+      "name": "bounded_real_image_shards_are_cpu_portable",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "actual_accuracy": 0.0,
+        "expanded_recall": 0.17,
+        "oracle_category_accuracy": 0.23,
+        "top4_recall": 0.12
+      },
+      "name": "complete_model_routing_gap_is_measured",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "format": "dendriswarm.cifar100-round-plan.v1",
+        "hard_negative_fraction": 0.55,
+        "model_root": "144f81f9ee6cd893ee3b43f23c25e4bcfc71b4f6651ffe5bacd8ea20c19ce3f8",
+        "objective": "close-routing-gap",
+        "operation": "scout_train",
+        "reason": "category has the largest route-miss burden",
+        "recipes": [
+          {
+            "learning_rate_multiplier": 1.2,
+            "name": "routing-hard-negative-0",
+            "objective": "correct-category-recall-and-scout-diversity",
+            "routing_margin": 0.25,
+            "scout_diversity": 0.0025,
+            "steps_multiplier": 0.75
+          },
+          {
+            "learning_rate_multiplier": 1.0,
+            "name": "routing-hard-negative-1",
+            "objective": "correct-category-recall-and-scout-diversity",
+            "routing_margin": 0.5,
+            "scout_diversity": 0.0025,
+            "steps_multiplier": 1.0
+          },
+          {
+            "learning_rate_multiplier": 0.8,
+            "name": "routing-hard-negative-2",
+            "objective": "correct-category-recall-and-scout-diversity",
+            "routing_margin": 0.75,
+            "scout_diversity": 0.0025,
+            "steps_multiplier": 1.25
+          },
+          {
+            "learning_rate_multiplier": 0.65,
+            "name": "routing-hard-negative-3",
+            "objective": "correct-category-recall-and-scout-diversity",
+            "routing_margin": 1.0,
+            "scout_diversity": 0.0025,
+            "steps_multiplier": 1.5
+          }
+        ],
+        "round_index": 0,
+        "routing_report_sha256": "8567890e3ae40d53033846ba666524e3e19caed8863fcab261f3cdb523ea53d4",
+        "routing_snapshot": {
+          "actual_accuracy": 0.0,
+          "conditional_accuracy_when_routed": 0.0,
+          "expanded_category_recall": 0.17,
+          "oracle_category_accuracy": 0.23,
+          "oracle_routing_gap": 0.23,
+          "route_miss_count": 83,
+          "top4_category_recall": 0.12
+        },
+        "sample_budget": 100,
+        "search_candidates": 4,
+        "selection_metric": "fresh-hidden-all-class-accuracy-with-exact-mcnemar-and-class-harm-gates",
+        "sha256": "ca899ea2f317336a34db2276c51f0439c8d13c507922e18497e9a058527c5d43",
+        "target": 5,
+        "test_split_used_for_planning": false
+      },
+      "name": "planner_assigns_routing_or_tissue_search_from_measured_bottleneck",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "recipe_hashes": [
+          "d23f9cb05a6b3ae0267b4c4f1965a2446cee7af5a3ef4fa4b1d1b4f1fe98281e",
+          "4fd9d649fc590768c4788a86e3a4f62ceadfe2c8d7021670067c3eceb5dc9435",
+          "8d0fbb1f11380bd16b86cf6415e007b7a58be33d248500b1f9a68646dbaee0f8",
+          "39553a04ae09b068e0da3bcc8277f8a914e3ba9f3000fa8203c1ff6638ee33f2"
+        ]
+      },
+      "name": "candidate_recipes_are_independent_search_trajectories",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "used_for_training_or_selection": false
+      },
+      "name": "official_test_split_cannot_drive_planning",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "payload_bytes": [
+          615050,
+          615052
+        ],
+        "task_ids": [
+          "942174e78f524323abd00feacad77606",
+          "917e2f48d8da42a0bf562322bf77d505"
+        ]
+      },
+      "name": "real_cifar_shard_queues_heterogeneous_search_tasks",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "replication": "f945a436b4fa1131b721b0da7bd71846e3e1b092a6d3158b9585d86456b0f1b5",
+        "selection": "60da7ff1da292e24a0b76f90c9ec95466f13fe74aa0f2229d2b2a3971bcb79f9"
+      },
+      "name": "selection_and_replication_are_distinct_trainer_invisible_artifacts",
+      "pass": true
+    },
+    {
+      "evidence": {},
+      "name": "search_recipe_commitment_rejects_tampering",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "baseline_training_included": false,
+        "dataset_bundled": false
+      },
+      "name": "benchmark_dataset_and_baseline_trainer_are_not_bundled",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "executed": false,
+        "reason": "no official archive supplied"
+      },
+      "name": "real_archive_mode_is_hash_verified_when_requested",
+      "pass": true
+    }
+  ],
+  "generated_at": 1784834619.4491024,
+  "proof": "dendriswarm-v0.7.0-cifar100-swarm-campaign",
+  "real_cifar100": {
+    "executed": false,
+    "reason": "no official archive supplied"
+  }
+}

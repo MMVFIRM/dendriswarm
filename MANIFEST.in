@@ -1,0 +1,5 @@
+include .gitignore LICENSE README.md RELEASE_NOTES.md RELEASE_MANIFEST.json SECURITY.md CONTRIBUTING.md DATA_LICENSES.md Makefile Dockerfile docker-compose.yml launch-dashboard.sh launch-dashboard.bat launch-operator-dashboard.sh launch-operator-dashboard.bat
+recursive-include docs *.md *.json
+recursive-include scripts *.py *.sh
+recursive-include tests *.py
+recursive-include .github *.yml *.yaml

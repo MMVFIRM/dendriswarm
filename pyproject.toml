@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dendriswarm"
+version = "0.8.0"
+description = "One-command CIFAR-100 Dendritron swarm training with a local contributor and campaign dashboard."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{name = "MMV Firm"}]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "httpx>=0.27,<1",
+  "pydantic>=2.9,<3",
+  "numpy>=2.0,<3",
+  "cryptography>=43,<47",
+  "psutil>=6,<8",
+  "threadpoolctl>=3.5,<4",
+]
+
+[project.optional-dependencies]
+coordinator = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "scikit-learn>=1.5,<2",
+]
+dev = [
+  "pytest>=8,<10",
+  "build>=1.2,<2",
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "scikit-learn>=1.5,<2",
+]
+
+[project.urls]
+Homepage = "https://github.com/MMVFIRM/dendriswarm"
+Repository = "https://github.com/MMVFIRM/dendriswarm"
+Issues = "https://github.com/MMVFIRM/dendriswarm/issues"
+
+[project.scripts]
+dendriswarm = "dendriswarm.cli:main"
+dendriswarm-dashboard = "dendriswarm.dashboard.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.setuptools.package-data]
+"dendriswarm.dashboard.static" = ["*.html"]

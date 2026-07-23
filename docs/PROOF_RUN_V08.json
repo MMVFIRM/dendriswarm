@@ -1,0 +1,145 @@
+{
+  "all_pass": true,
+  "claim_boundary": {
+    "cifar100_accuracy_claim": false,
+    "local_control_surface": true,
+    "remote_multi_tenant_admin": false
+  },
+  "gate_count": 12,
+  "gates": [
+    {
+      "evidence": {
+        "version": "0.8.0"
+      },
+      "name": "package_version",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "path": "/tmp/dendriswarm-v08-proof-n6iyuetf/dashboard/config-proof.json",
+        "refresh_seconds": 3.0
+      },
+      "name": "atomic_configuration",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "allow_on_battery": false,
+        "allowed_task_kinds": [
+          "inference",
+          "training",
+          "exploration",
+          "verification",
+          "dendritron-mutation",
+          "dendritron-verification"
+        ],
+        "cpu_percent": 13,
+        "disk_limit_mb": 512,
+        "max_system_cpu_percent": 95,
+        "max_task_seconds": 900,
+        "memory_limit_mb": null,
+        "memory_percent": 17,
+        "min_battery_percent": 30,
+        "paused": false
+      },
+      "name": "worker_policy_binding",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "creation_time_bound": true,
+        "pid": 13284
+      },
+      "name": "managed_process_lifecycle",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "rejected_host": "0.0.0.0"
+      },
+      "name": "loopback_only",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "authorized": 200,
+        "unauthorized": 401
+      },
+      "name": "dashboard_token_authentication",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "html_bytes": 20487
+      },
+      "name": "dashboard_control_surface",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "authorized_status": 400,
+        "missing_status": 401,
+        "token_published": false
+      },
+      "name": "separate_operator_admin_token",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "stats_keys": [
+          "active_nodes",
+          "architectures",
+          "assigned_tasks",
+          "audit",
+          "benchmark",
+          "candidates",
+          "canonical",
+          "cifar100_campaign",
+          "completed_tasks",
+          "credit_supply",
+          "credit_supply_units",
+          "datasets_approved",
+          "datasets_pending",
+          "failed_tasks",
+          "native10",
+          "native10_v6",
+          "nodes",
+          "paused_nodes",
+          "queued_tasks",
+          "verification_modes",
+          "verification_records",
+          "verified_candidates"
+        ]
+      },
+      "name": "campaign_telemetry_available",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "loaded": "False False"
+      },
+      "name": "lightweight_contributor_import",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "static_asset": "src/dendriswarm/dashboard/static/index.html"
+      },
+      "name": "no_frontend_runtime_dependency",
+      "pass": true
+    },
+    {
+      "evidence": {
+        "launchers": [
+          "launch-dashboard.sh",
+          "launch-dashboard.bat",
+          "launch-operator-dashboard.sh",
+          "launch-operator-dashboard.bat"
+        ]
+      },
+      "name": "cross_platform_launchers",
+      "pass": true
+    }
+  ],
+  "proof": "dendriswarm-v0.8.0-local-dashboard"
+}
