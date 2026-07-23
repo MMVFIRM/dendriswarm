@@ -2,6 +2,8 @@
 
 DendriSwarm coordinates heterogeneous CPU machines to train and search a persistent **Native10-derived Dendritron on real CIFAR-100 data**. v0.8.0 keeps the full v0.7 campaign and adds a one-command local application for contributors and campaign operators.
 
+> **New to DendriSwarm?** Follow the [first-time user guide](docs/FIRST_TIME_USER.md) for prerequisite installation, the correct coordinator/seed startup order, CIFAR-100 preparation, campaign launch, health checks, and common Windows fixes.
+
 ## Open the app
 
 Install the lightweight contributor package and run it with no subcommand:
@@ -129,6 +131,7 @@ v0.8.0 adds dashboard/configuration tests and a dedicated usability/security pro
 
 See:
 
+- `docs/FIRST_TIME_USER.md`
 - `docs/DASHBOARD_V08.md`
 - `docs/CIFAR100_SWARM_V07.md`
 - `docs/CLAIMS.md`
