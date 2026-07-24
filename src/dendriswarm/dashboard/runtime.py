@@ -82,6 +82,11 @@ class ProcessManager:
             return current
         log_path = self.logs_dir / f"{name}.log"
         log_handle = log_path.open("a", encoding="utf-8", buffering=1)
+        started_at = time.time()
+        log_handle.write(
+            f"\n--- DendriSwarm {name} session started "
+            f"{time.strftime('%Y-%m-%d %H:%M:%S')} ---\n"
+        )
         kwargs: dict[str, Any] = {
             "stdout": log_handle,
             "stderr": subprocess.STDOUT,
@@ -101,7 +106,7 @@ class ProcessManager:
             "create_time": psutil.Process(process.pid).create_time(),
             "command": command,
             "log_path": str(log_path),
-            "started_at": time.time(),
+            "started_at": started_at,
             "running": True,
         }
         value = self._read()
@@ -256,15 +261,32 @@ class DashboardRuntime:
             doctor = {"error": str(exc)}
         coordinator: dict[str, Any]
         try:
-            coordinator = {"online": True, "stats": self._coordinator_get("/v1/stats")}
+            coordinator_meta = self._coordinator_get("/v1/meta")
+        except Exception as exc:
+            coordinator = {"online": False, "error": str(exc)}
+        else:
+            try:
+                coordinator = {
+                    "online": True,
+                    "meta": coordinator_meta,
+                    "stats": self._coordinator_get("/v1/stats"),
+                }
+            except Exception as exc:
+                # A responsive control plane is online even when expensive or
+                # temporarily contended telemetry misses its deadline.
+                coordinator = {
+                    "online": True,
+                    "degraded": True,
+                    "meta": coordinator_meta,
+                    "stats": {},
+                    "error": f"telemetry delayed: {exc}",
+                }
             node_id = str(seed_status.get("node_id", ""))
-            if node_id:
+            if node_id and not coordinator.get("degraded"):
                 try:
                     coordinator["node_account"] = self._coordinator_get(f"/v1/nodes/{node_id}")
                 except Exception:
                     pass
-        except Exception as exc:
-            coordinator = {"online": False, "error": str(exc)}
         process_status = self.processes.status()
         return {
             "version": "0.8.0",

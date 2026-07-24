@@ -29,6 +29,7 @@ def test_process_manager_tracks_real_process(tmp_path: Path):
     record = manager.start("probe", [sys.executable, "-c", "import time; time.sleep(30)"])
     assert record["running"] is True
     assert manager.status()["probe"]["running"] is True
+    assert "DendriSwarm probe session started" in manager.tail("probe")
     stopped = manager.stop("probe")
     assert stopped["stopped"] is True
     assert manager.status()["probe"]["running"] is False
@@ -51,6 +52,8 @@ def test_loopback_dashboard_requires_token_and_serves_status(tmp_path: Path):
             page = client.get(base + f"/?token={runtime.token}")
             assert page.status_code == 200
             assert "DendriSwarm" in page.text
+            assert 'id="coordinator-error"' in page.text
+            assert "let refreshPromise=null" in page.text
             status = client.get(base + "/api/status")
             assert status.status_code == 200
             assert status.json()["data"]["version"] == "0.8.0"
@@ -85,6 +88,42 @@ def test_loopback_dashboard_requires_token_and_serves_status(tmp_path: Path):
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
+
+
+def test_dashboard_reports_responsive_coordinator_when_telemetry_is_delayed(tmp_path, monkeypatch):
+    runtime = DashboardRuntime(
+        tmp_path / "dashboard",
+        seed_state=tmp_path / "seed",
+        operator_state=tmp_path / "operator",
+    )
+
+    def coordinator_get(path):
+        if path == "/v1/meta":
+            return {"name": "DendriSwarm", "version": "0.8.0"}
+        raise TimeoutError("stats are busy")
+
+    monkeypatch.setattr(runtime, "_coordinator_get", coordinator_get)
+    status = runtime.aggregate_status()["coordinator"]
+    assert status["online"] is True
+    assert status["degraded"] is True
+    assert status["stats"] == {}
+    assert status["error"] == "telemetry delayed: stats are busy"
+
+
+def test_stats_endpoint_builds_native10_v6_status_once(tmp_path, monkeypatch):
+    app = create_app(tmp_path / "operator")
+    original = app.state.service.native10_v6.store.status
+    calls = 0
+
+    def counted_status():
+        nonlocal calls
+        calls += 1
+        return original()
+
+    monkeypatch.setattr(app.state.service.native10_v6.store, "status", counted_status)
+    response = TestClient(app).get("/v1/stats")
+    assert response.status_code == 200
+    assert calls == 1
 
 
 def test_coordinator_dashboard_admin_routes_require_local_token(tmp_path: Path):

@@ -325,8 +325,11 @@ def create_app(
     def stats():
         value = service.db.stats()
         value["native10"] = service.native10.store.status()
-        value["native10_v6"] = service.native10_v6.store.status()
-        value["cifar100_campaign"] = service.cifar100.status()
+        native10_v6_status = service.native10_v6.store.status()
+        value["native10_v6"] = native10_v6_status
+        value["cifar100_campaign"] = service.cifar100.status(
+            native_status=native10_v6_status
+        )
         return value
 
     @app.get("/v1/native10/status")

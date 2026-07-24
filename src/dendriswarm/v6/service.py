@@ -56,6 +56,7 @@ class Native10Store:
         self.baseline_reference_path = self.path / "baseline-reference.json"
         self.state_path = self.path / "state.json"
         self.lock = threading.RLock()
+        self._status_json_cache: dict[Path, tuple[int, int, dict[str, Any]]] = {}
         if not self.state_path.exists():
             self._write_json(self.state_path, {
                 "format": "dendriswarm.native10-coordinator-state.v6",
@@ -88,6 +89,20 @@ class Native10Store:
                 os.unlink(temporary)
             except FileNotFoundError:
                 pass
+
+    def _cached_status_json(self, path: Path) -> dict[str, Any]:
+        """Read coordinator-owned status metadata without decoding model tensors."""
+        with self.lock:
+            stat = path.stat()
+            cached = self._status_json_cache.get(path)
+            cache_key = (stat.st_mtime_ns, stat.st_size)
+            if cached and cached[:2] == cache_key:
+                return cached[2]
+            value = json.loads(path.read_text())
+            if not isinstance(value, dict):
+                raise ValueError(f"{path.name} must contain a JSON object")
+            self._status_json_cache[path] = (cache_key[0], cache_key[1], value)
+            return value
 
     @contextmanager
     def transaction(self):
@@ -269,7 +284,9 @@ class Native10Store:
     def validation_status(self) -> dict[str, Any]:
         if not self.validation_path.exists():
             return {"configured": False, "sha256": None}
-        artifact = self.global_validation()
+        # The artifact was fully validated before it was installed. Status
+        # polling must not reload and decode the 24 MB canonical checkpoint.
+        artifact = self._cached_status_json(self.validation_path)
         state = self.state()
         return {
             "configured": True,
@@ -290,7 +307,7 @@ class Native10Store:
     def replication_validation_status(self) -> dict[str, Any]:
         if not self.replication_path.exists():
             return {"configured": False, "sha256": None}
-        artifact = self.replication_validation()
+        artifact = self._cached_status_json(self.replication_path)
         state = self.state()
         return {
             "configured": True,
@@ -359,12 +376,13 @@ class Native10Store:
                 "replication_validation": self.replication_validation_status(),
                 "baseline_reference": self.baseline_reference_status(),
             }
-        model = self.model()
+        checkpoint = self._cached_status_json(self.checkpoint_path)
+        config = Native10Config.from_dict(dict(checkpoint["config"]))
         return {
             "initialized": True,
-            "canonical_root": model.root,
-            "parameter_count": model.parameter_count,
-            "config": model.config.as_dict(),
+            "canonical_root": state.get("canonical_root") or checkpoint.get("model_root"),
+            "parameter_count": int(checkpoint["parameter_count"]),
+            "config": config.as_dict(),
             "active_round": state.get("active_round"),
             "candidate_count": len(state.get("candidates", {})),
             "contribution_count": len(state.get("contributions", [])),
@@ -372,7 +390,7 @@ class Native10Store:
             "global_validation": self.validation_status(),
             "replication_validation": self.replication_validation_status(),
             "baseline_reference": self.baseline_reference_status(),
-            "parameter_reachability": parameter_reachability(model.config),
+            "parameter_reachability": parameter_reachability(config),
             "search_rounds_completed": int(state.get("search_rounds_completed", 0)),
         }
 

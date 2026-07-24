@@ -363,10 +363,10 @@ class CIFAR100Campaign:
     def compare_test_with_baseline(self, test_report: dict[str, Any]) -> dict[str, Any]:
         return compare_with_baseline(test_report["evaluation"], self.native.store.baseline_reference())
 
-    def status(self) -> dict[str, Any]:
+    def status(self, *, native_status: dict[str, Any] | None = None) -> dict[str, Any]:
         state = self.reconcile()
         dataset = self.dataset.status()
-        native = self.native.store.status()
+        native = native_status if native_status is not None else self.native.store.status()
         history = list(state.get("history", []))
         promoted_items = [item for item in history if item.get("status") == "promoted"]
         promoted = len(promoted_items)

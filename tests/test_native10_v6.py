@@ -467,6 +467,23 @@ def test_hidden_artifacts_are_one_tournament_only(tmp_path):
         native.queue_demo_round(category=0, operation="field_train")
 
 
+def test_status_polling_does_not_materialize_canonical_model_tensors(tmp_path, monkeypatch):
+    app = create_app(tmp_path)
+    native = app.state.service.native10_v6
+    native.initialize("compact", seed=7)
+    native.queue_demo_round(category=0, operation="field_train")
+
+    def fail_model_load():
+        raise AssertionError("status polling decoded the canonical model")
+
+    monkeypatch.setattr(native.store, "model", fail_model_load)
+    status = native.store.status()
+    assert status["initialized"] is True
+    assert status["parameter_count"] > 0
+    assert native.store.validation_status()["configured"] is True
+    assert native.store.replication_validation_status()["configured"] is True
+
+
 def test_exact_operation_write_plan_rejects_missing_allowed_slice():
     from dendriswarm.v6.native10 import delta_hash
 
