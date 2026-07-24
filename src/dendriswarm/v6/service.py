@@ -562,6 +562,23 @@ class Native10Coordinator:
         self.db = db
         self.lock = threading.RLock()
 
+    def status(self) -> dict[str, Any]:
+        status = self.store.status()
+        active = status.get("active_round")
+        if not active or not active.get("work_key"):
+            return status
+        active = dict(active)
+        reports = self.db.work_reports(
+            str(active["work_key"]),
+            TaskKind.DENDRITRON_MUTATION.value,
+        )
+        expected = int(active.get("expected_search_reports", 0))
+        active["search_reports_received"] = len(reports)
+        active["search_reports_remaining"] = max(0, expected - len(reports))
+        active["search_report_nodes"] = sorted({str(row["node_id"]) for row in reports})
+        status["active_round"] = active
+        return status
+
     def initialize(self, profile: str = "compact", *, input_width: int | None = None, seed: int = 7, replace: bool = False) -> dict[str, Any]:
         if profile == "compact":
             config = Native10Config.compact_demo(seed=seed)

@@ -56,7 +56,8 @@ def test_loopback_dashboard_requires_token_and_serves_status(tmp_path: Path):
             assert 'id="task-progress"' in page.text
             assert "acct.contributed_ms" in page.text
             assert "Accepted for evaluation" in page.text
-            assert "candidates assembled" in page.text
+            assert "Your report is accepted" in page.text
+            assert "search reports" in page.text
             assert "c.latest_round?.plan?.routing_snapshot" in page.text
             assert "grid-template-columns:240px minmax(0,1fr)" in page.text
             assert "let refreshPromise=null" in page.text

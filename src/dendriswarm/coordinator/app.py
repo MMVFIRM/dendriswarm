@@ -325,7 +325,7 @@ def create_app(
     def stats():
         value = service.db.stats()
         value["native10"] = service.native10.store.status()
-        native10_v6_status = service.native10_v6.store.status()
+        native10_v6_status = service.native10_v6.status()
         value["native10_v6"] = native10_v6_status
         value["cifar100_campaign"] = service.cifar100.status(
             native_status=native10_v6_status
@@ -460,7 +460,7 @@ def create_app(
 
     @app.get("/v1/native10-v6/status")
     def native10_v6_status():
-        return service.native10_v6.store.status()
+        return service.native10_v6.status()
 
     @app.get("/v1/native10-v6/checkpoints/{model_root}")
     def native10_v6_checkpoint(model_root: str):

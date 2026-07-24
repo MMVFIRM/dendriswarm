@@ -332,6 +332,27 @@ def test_end_to_end_independent_search_selection_replay_and_fresh_replication(tm
     assert {"independent-search", "blind-selection-verification", "replay-audit", "fresh-final-replication"} <= stages
 
 
+def test_status_reports_independent_search_worker_progress(tmp_path):
+    app = create_app(tmp_path)
+    native = app.state.service.native10_v6
+    native.initialize("compact", seed=7)
+    native.queue_demo_round(category=0, operation="field_train")
+    active = native.store.status()["active_round"]
+    app.state.service.db.record_work_report(
+        active["work_key"],
+        TaskKind.DENDRITRON_MUTATION.value,
+        "worker-one",
+        "task-one",
+        {"worker_duration_ms": 1234},
+    )
+
+    status = native.status()
+    progress = status["active_round"]
+    assert progress["search_reports_received"] == 1
+    assert progress["search_reports_remaining"] == progress["expected_search_reports"] - 1
+    assert progress["search_report_nodes"] == ["worker-one"]
+
+
 def test_selection_and_replication_artifacts_must_be_distinct(tmp_path):
     app = create_app(tmp_path)
     native = app.state.service.native10_v6
