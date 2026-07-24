@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 import time
 
 from fastapi.testclient import TestClient
@@ -321,6 +322,106 @@ def test_lease_renewal_supports_slow_volunteer_nodes(tmp_path):
         assert response.status_code == 200, response.text
         assert response.json()["lease_expires_at"] > before
         assert client.get("/v1/stats").json()["active_nodes"] == 1
+
+
+def test_node_account_reports_all_accepted_worker_runtime(tmp_path):
+    app = create_app(tmp_path / "coordinator")
+    identity = Identity.generate()
+    capabilities = NodeCapabilities(
+        cpu_count=2,
+        memory_mb=2_048,
+        memory_available_mb=1_500,
+        disk_free_mb=2_000,
+        tags=["reference-runtime-v2", "deterministic-v2"],
+    ).model_dump(mode="json")
+    policy = SeedPolicy(
+        cpu_percent=100,
+        memory_percent=100,
+        allow_on_battery=True,
+    ).model_dump(mode="json")
+    app.state.service.db.register_node(
+        identity.node_id,
+        identity.public_key_b64,
+        capabilities,
+        policy,
+    )
+    task_id = app.state.service.db.add_task(
+        TaskKind.EXPLORATION,
+        {},
+        reward_units=0,
+        priority=1,
+        requirements=TaskRequirements(
+            min_memory_mb=64,
+            max_memory_mb=256,
+            required_tags=["reference-runtime-v2"],
+        ),
+    )
+    task = app.state.service.db.claim_task(identity.node_id, lease_seconds=60)
+    assert task is not None and task["id"] == task_id
+    assert app.state.service.db.complete_task(
+        task_id,
+        identity.node_id,
+        str(task["lease_token"]),
+        {"accepted": True},
+        duration_ms=3_723,
+    )
+
+    with TestClient(app) as client:
+        account = client.get(f"/v1/nodes/{identity.node_id}").json()
+
+    assert account["completed"] == 1
+    assert account["contributed_ms"] == 3_723
+    assert account["contributed_seconds"] == 3.723
+    assert account["contributed_hours"] == 3_723 / 3_600_000
+
+
+def test_worker_runtime_migration_recovers_native_work_reports(tmp_path):
+    path = tmp_path / "legacy.sqlite3"
+    connection = sqlite3.connect(path)
+    connection.executescript(
+        """
+        CREATE TABLE nodes (
+            id TEXT PRIMARY KEY,
+            public_key TEXT NOT NULL,
+            capabilities TEXT NOT NULL,
+            credit_units INTEGER NOT NULL DEFAULT 0,
+            completed INTEGER NOT NULL DEFAULT 0,
+            failed INTEGER NOT NULL DEFAULT 0,
+            last_seen REAL NOT NULL
+        );
+        CREATE TABLE work_reports (
+            work_key TEXT NOT NULL,
+            kind TEXT NOT NULL,
+            node_id TEXT NOT NULL,
+            task_id TEXT NOT NULL UNIQUE,
+            output_hash TEXT NOT NULL,
+            output TEXT NOT NULL,
+            created_at REAL NOT NULL,
+            PRIMARY KEY(work_key, node_id)
+        );
+        """
+    )
+    connection.execute(
+        "INSERT INTO nodes(id,public_key,capabilities,completed,last_seen) VALUES(?,?,?,?,?)",
+        ("legacy-node", "key", "{}", 1, time.time()),
+    )
+    connection.execute(
+        "INSERT INTO work_reports VALUES(?,?,?,?,?,?,?)",
+        (
+            "round-1",
+            TaskKind.DENDRITRON_MUTATION.value,
+            "legacy-node",
+            "task-1",
+            "hash",
+            json.dumps({"worker_duration_ms": 12_345}),
+            time.time(),
+        ),
+    )
+    connection.commit()
+    connection.close()
+
+    database = Database(path)
+    assert database.node("legacy-node")["contributed_ms"] == 12_345
 
 
 def test_coordinator_advertises_no_accelerator_requirement(tmp_path):

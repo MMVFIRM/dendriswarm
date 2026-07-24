@@ -622,11 +622,15 @@ class CoordinatorService:
             self.db.credit(f"reward:{task['id']}", result["node_id"], reward_units, "inference execution", task["id"])
             details.update({"prediction": prediction, "audited": audited, "proof_carrying_schema": True})
 
-        if not self.db.complete_task(task["id"], result["node_id"], result["lease_token"], output):
+        if not self.db.complete_task(
+            task["id"], result["node_id"], result["lease_token"], output,
+            duration_ms=int(result.get("duration_ms", 0)),
+        ):
             raise ValueError("task completion lost its active lease")
         event_hash = self.db.append_audit("task_completed", {
             "task_id": task["id"], "kind": kind.value, "node_id": result["node_id"],
             "output_hash": content_hash(output), "reward_units": reward_units,
+            "duration_ms": int(result.get("duration_ms", 0)),
         })
         return {"accepted": True, **details, **self._receipt(result["node_id"], task["id"], reward_units, event_hash, details)}
 

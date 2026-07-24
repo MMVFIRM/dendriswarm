@@ -50,6 +50,7 @@ class Database:
                     credit_units INTEGER NOT NULL DEFAULT 0,
                     completed INTEGER NOT NULL DEFAULT 0,
                     failed INTEGER NOT NULL DEFAULT 0,
+                    contributed_ms INTEGER NOT NULL DEFAULT 0,
                     last_seen REAL NOT NULL,
                     quarantine_until REAL NOT NULL DEFAULT 0
                 );
@@ -172,6 +173,22 @@ class Database:
                 self.conn.execute("ALTER TABLE nodes ADD COLUMN policy TEXT NOT NULL DEFAULT '{}'")
             if "quarantine_until" not in node_columns:
                 self.conn.execute("ALTER TABLE nodes ADD COLUMN quarantine_until REAL NOT NULL DEFAULT 0")
+            if "contributed_ms" not in node_columns:
+                self.conn.execute("ALTER TABLE nodes ADD COLUMN contributed_ms INTEGER NOT NULL DEFAULT 0")
+                # Native10 reports retain signed worker durations, so recover
+                # existing accepted effort when upgrading a coordinator state.
+                recovered: dict[str, int] = {}
+                for row in self.conn.execute("SELECT node_id,output FROM work_reports"):
+                    try:
+                        duration_ms = max(0, int(json.loads(row["output"]).get("worker_duration_ms", 0)))
+                    except (TypeError, ValueError, json.JSONDecodeError):
+                        duration_ms = 0
+                    recovered[str(row["node_id"])] = recovered.get(str(row["node_id"]), 0) + duration_ms
+                for node_id, duration_ms in recovered.items():
+                    self.conn.execute(
+                        "UPDATE nodes SET contributed_ms=? WHERE id=?",
+                        (duration_ms, node_id),
+                    )
             task_columns = {row["name"] for row in self.conn.execute("PRAGMA table_info(tasks)")}
             if "requirements" not in task_columns:
                 self.conn.execute("ALTER TABLE tasks ADD COLUMN requirements TEXT NOT NULL DEFAULT '{}'")
@@ -637,7 +654,14 @@ class Database:
         return self.conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
 
     @synchronized
-    def complete_task(self, task_id: str, node_id: str, lease_token: str, output: dict[str, Any]) -> bool:
+    def complete_task(
+        self,
+        task_id: str,
+        node_id: str,
+        lease_token: str,
+        output: dict[str, Any],
+        duration_ms: int = 0,
+    ) -> bool:
         with self.lock:
             now = time.time()
             row = self.conn.execute(
@@ -653,7 +677,10 @@ class Database:
                 (now, json.dumps(output, sort_keys=True), task_id, node_id, lease_token),
             ).rowcount
             if changed:
-                self.conn.execute("UPDATE nodes SET completed=completed+1 WHERE id=?", (node_id,))
+                self.conn.execute(
+                    "UPDATE nodes SET completed=completed+1,contributed_ms=contributed_ms+? WHERE id=?",
+                    (max(0, int(duration_ms)), node_id),
+                )
             if changed and int(row["claim_bond_units"] or 0):
                 bond = int(row["claim_bond_units"])
                 self.conn.execute("UPDATE nodes SET credit_units=credit_units+? WHERE id=?", (bond, node_id))

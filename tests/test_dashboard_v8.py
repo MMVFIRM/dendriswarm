@@ -53,6 +53,12 @@ def test_loopback_dashboard_requires_token_and_serves_status(tmp_path: Path):
             assert page.status_code == 200
             assert "DendriSwarm" in page.text
             assert 'id="coordinator-error"' in page.text
+            assert 'id="task-progress"' in page.text
+            assert "acct.contributed_ms" in page.text
+            assert "Accepted for evaluation" in page.text
+            assert "candidates assembled" in page.text
+            assert "c.latest_round?.plan?.routing_snapshot" in page.text
+            assert "grid-template-columns:240px minmax(0,1fr)" in page.text
             assert "let refreshPromise=null" in page.text
             status = client.get(base + "/api/status")
             assert status.status_code == 200
