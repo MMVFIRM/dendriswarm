@@ -110,6 +110,39 @@ def test_dashboard_reports_responsive_coordinator_when_telemetry_is_delayed(tmp_
     assert status["error"] == "telemetry delayed: stats are busy"
 
 
+def test_dashboard_campaign_actions_send_endpoint_specific_payloads(tmp_path, monkeypatch):
+    runtime = DashboardRuntime(
+        tmp_path / "dashboard",
+        seed_state=tmp_path / "seed",
+        operator_state=tmp_path / "operator",
+    )
+    requests = []
+
+    def capture_request(path, payload):
+        requests.append((path, payload))
+        return {"ok": True}
+
+    monkeypatch.setattr(runtime, "_coordinator_admin_post", capture_request)
+
+    runtime.campaign_action("plan", {"search_candidates": 4})
+    assert requests[-1] == (
+        "/v1/admin/cifar100/plan",
+        {"search_candidates": 4, "sample_budget": 640},
+    )
+
+    runtime.campaign_action("queue", {"optimizer_steps": 24})
+    assert requests[-1] == (
+        "/v1/admin/cifar100/queue-next",
+        {
+            "search_candidates": 8,
+            "sample_budget": 640,
+            "optimizer_steps": 24,
+            "learning_rate": 0.03,
+            "verification_quorum": 2,
+        },
+    )
+
+
 def test_stats_endpoint_builds_native10_v6_status_once(tmp_path, monkeypatch):
     app = create_app(tmp_path / "operator")
     original = app.state.service.native10_v6.store.status

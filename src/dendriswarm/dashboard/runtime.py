@@ -377,7 +377,13 @@ class DashboardRuntime:
         if action in {"plan", "queue"}:
             defaults = self.config.campaign.model_dump(mode="json")
             defaults.update(payload)
-            payload = defaults
+            if action == "plan":
+                payload = {
+                    key: defaults[key]
+                    for key in ("search_candidates", "sample_budget")
+                }
+            else:
+                payload = defaults
         return self._coordinator_admin_post(routes[action], payload)
 
     def autostart(self) -> None:
