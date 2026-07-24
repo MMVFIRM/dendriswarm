@@ -80,6 +80,13 @@ class CoordinatorService:
                 pass
         if self.db.validate_audit_chain()[1] == 0:
             self.db.append_audit("genesis", {"schema": 2})
+        with self.db.transaction():
+            upgraded_contracts = self.db.refresh_queued_mutation_requirements()
+            if upgraded_contracts:
+                self.db.append_audit(
+                    "queued_resource_contracts_upgraded",
+                    {"kind": TaskKind.DENDRITRON_MUTATION.value, "count": upgraded_contracts},
+                )
 
     @staticmethod
     def _fresh(timestamp: int) -> bool:

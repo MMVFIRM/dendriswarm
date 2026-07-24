@@ -13,6 +13,13 @@ from dendriswarm.core.models import (
 )
 
 
+# Native10 mutations execute several small NumPy kernels per logical unit of
+# work.  Treating them like the reference tissue's large matrix operations
+# overstates throughput by roughly five times on commodity CPUs and creates
+# hard timeouts that are shorter than a valid CIFAR-100 search trajectory.
+NATIVE10_REFERENCE_UNITS_PER_SECOND = 8_000_000
+
+
 def effective_limits(capabilities: NodeCapabilities, policy: SeedPolicy) -> dict[str, int | float | bool]:
     cpu_threads = max(1, min(capabilities.cpu_count, math.floor(capabilities.cpu_count * policy.cpu_percent / 100)))
     percent_memory = math.floor(capabilities.memory_mb * policy.memory_percent / 100)
@@ -111,7 +118,12 @@ def estimate_reference_requirements(
     matrix_bytes = samples * max(features, branches) * 8
     memory_mb = max(96, int(math.ceil(matrix_bytes * 4.0 / (1024 * 1024))) + 48)
     operation_hint = samples * branches * max(features, 1) * iterations
-    estimated = max(1, min(86400, int(math.ceil(operation_hint / 40_000_000))))
+    reference_units_per_second = (
+        NATIVE10_REFERENCE_UNITS_PER_SECOND
+        if kind in {TaskKind.DENDRITRON_MUTATION, TaskKind.DENDRITRON_VERIFICATION}
+        else 40_000_000
+    )
+    estimated = max(1, min(86400, int(math.ceil(operation_hint / reference_units_per_second))))
     if kind == TaskKind.INFERENCE:
         estimated = max(1, min(30, estimated))
         memory_mb = max(32, min(memory_mb, 256))
@@ -125,7 +137,10 @@ def estimate_reference_requirements(
         estimated = max(5, min(86400, estimated))
     else:
         estimated = max(5, min(86400, estimated))
-    hard_timeout = min(86400, max(estimated + 10, int(math.ceil(estimated * 2.5))))
+    timeout_multiplier = 3.0 if kind in {
+        TaskKind.DENDRITRON_MUTATION, TaskKind.DENDRITRON_VERIFICATION,
+    } else 2.5
+    hard_timeout = min(86400, max(estimated + 10, int(math.ceil(estimated * timeout_multiplier))))
     max_bytes = max(64 * 1024, int(artifact_bytes or (samples * features * 24 + branches * features * 24)))
     preferred_threads = 1 if memory_mb <= 256 else 2 if memory_mb <= 1024 else 4
     return TaskRequirements(
@@ -163,6 +178,7 @@ def derive_payload_requirements(kind: TaskKind, payload: dict[str, Any]) -> Task
             validation_rows = int(validation_value["shape"][0])
         else:
             validation_rows = len(validation_value)
+        validation_rows = max(validation_rows, int(payload.get("validation_sample_count") or 0))
         samples = max(1, train_rows + validation_rows)
         experts = int(config.get("active_experts_per_update") or config.get("experts_per_category") or 1)
         branches = int(config.get("expert_branches") or 1)
@@ -170,12 +186,12 @@ def derive_payload_requirements(kind: TaskKind, payload: dict[str, Any]) -> Task
         checkpoint = payload.get("_native10_checkpoint") or {}
         serialized_hint = len(str(payload).encode("utf-8"))
         # Mutation work scales with active experts. Verification loads the complete
-        # canonical model and evaluates routed end-to-end behavior before and after
-        # applying the exact candidate delta.
+        # canonical model, but routed evaluation only opens the configured maximum
+        # category fan-out before and after applying the exact candidate delta.
         effective_branches = experts * branches * branch_width
         if kind == TaskKind.DENDRITRON_VERIFICATION:
             effective_branches = (
-                int(config.get("categories") or 1)
+                int(config.get("max_routed_categories") or config.get("categories") or 1)
                 * int(config.get("experts_per_category") or experts)
                 * branches
                 * branch_width

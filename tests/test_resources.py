@@ -15,7 +15,7 @@ from dendriswarm.core.models import (
     TaskKind,
     TaskRequirements,
 )
-from dendriswarm.core.resources import effective_limits, node_can_run
+from dendriswarm.core.resources import derive_payload_requirements, effective_limits, node_can_run
 from dendriswarm.worker.config import SeedPolicyStore
 from dendriswarm.worker.node import SeedNode
 from tests.helpers import claim_and_execute
@@ -46,6 +46,31 @@ def signed_renewal(identity, task):
     }
     return {key: value for key, value in body.items() if key != "action"} | {
         "signature": identity.sign(body)
+    }
+
+
+def cifar100_native10_payload(optimizer_steps=27):
+    return {
+        "engine": "dendriswarm.native10-trainable.v6",
+        "work_key": "native10-v6-search:resource-contract-regression",
+        "bundle": {
+            "operation": "scout_train",
+            "config": {
+                "input_width": 3072,
+                "representation_width": 96,
+                "categories": 20,
+                "classes": 100,
+                "max_routed_categories": 8,
+                "experts_per_category": 45,
+                "active_experts_per_update": 15,
+                "expert_branches": 4,
+                "branch_width": 12,
+            },
+        },
+        "train_data": {"shape": [640, 96]},
+        "train_labels": [0] * 640,
+        "optimizer_steps": optimizer_steps,
+        "required_tags": ["portable-numpy-v1", "independent-search-v1"],
     }
 
 
@@ -371,6 +396,62 @@ def test_default_quarter_share_on_one_gb_machine_can_scout():
     assert effective_limits(capabilities, policy)["memory_mb"] == 256
     assert requirements.min_memory_mb <= 256
     assert node_can_run(TaskKind.EXPLORATION, requirements, capabilities, policy)[0]
+
+
+def test_cifar100_native10_search_contract_fits_default_worker_without_early_timeout():
+    expected = [(27, 150, 450), (36, 200, 600), (45, 249, 747), (54, 299, 897)]
+    for steps, estimated, hard_timeout in expected:
+        requirements = derive_payload_requirements(
+            TaskKind.DENDRITRON_MUTATION, cifar100_native10_payload(steps)
+        )
+        assert requirements.estimated_runtime_seconds == estimated
+        assert requirements.hard_timeout_seconds == hard_timeout
+        assert requirements.hard_timeout_seconds <= SeedPolicy().max_task_seconds
+
+
+def test_native10_verification_contract_uses_private_sample_count_hint():
+    payload = cifar100_native10_payload()
+    payload.pop("train_data")
+    payload.pop("train_labels")
+    payload["validation_sample_count"] = 500
+    requirements = derive_payload_requirements(TaskKind.DENDRITRON_VERIFICATION, payload)
+    assert requirements.estimated_runtime_seconds == 208
+    assert requirements.hard_timeout_seconds == 624
+    assert requirements.hard_timeout_seconds <= SeedPolicy().max_task_seconds
+
+
+def test_coordinator_upgrades_and_rehabilitates_stale_queued_search_contracts(tmp_path):
+    state = tmp_path / "coordinator"
+    db = Database(state / "dendriswarm.sqlite3")
+    task_id = db.add_task(
+        TaskKind.DENDRITRON_MUTATION,
+        cifar100_native10_payload(),
+        4000,
+        60,
+        requirements=TaskRequirements(
+            min_memory_mb=96,
+            max_memory_mb=256,
+            min_disk_mb=1,
+            estimated_runtime_seconds=30,
+            hard_timeout_seconds=75,
+            max_artifact_bytes=400_000,
+            required_tags=["portable-numpy-v1", "independent-search-v1"],
+        ),
+    )
+    db.conn.execute(
+        "UPDATE tasks SET attempts=2,excluded_nodes=? WHERE id=?",
+        (json.dumps(["timed-out-worker"]), task_id),
+    )
+    db.conn.close()
+
+    app = create_app(state)
+    row = app.state.service.db.task(task_id)
+    requirements = json.loads(row["requirements"])
+    assert requirements["estimated_runtime_seconds"] == 150
+    assert requirements["hard_timeout_seconds"] == 450
+    assert row["attempts"] == 0
+    assert json.loads(row["excluded_nodes"]) == []
+    assert app.state.service.db.validate_audit_chain()[0]
 
 
 def test_cache_budget_evicts_old_content_addressed_artifacts(tmp_path, monkeypatch):

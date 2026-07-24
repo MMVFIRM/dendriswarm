@@ -11,7 +11,12 @@ from pathlib import Path
 from typing import Any
 
 from dendriswarm.core.models import NodeCapabilities, SeedPolicy, TaskKind, TaskRequirements
-from dendriswarm.core.resources import adjusted_runtime_seconds, node_can_run, requirements_from_value
+from dendriswarm.core.resources import (
+    adjusted_runtime_seconds,
+    derive_payload_requirements,
+    node_can_run,
+    requirements_from_value,
+)
 
 
 def synchronized(method):
@@ -349,6 +354,68 @@ class Database:
                 raise
 
     @synchronized
+    def refresh_queued_mutation_requirements(self) -> int:
+        """Monotonically upgrade stale queued Native10 mutation contracts.
+
+        Resource estimates are part of a signed task, so upgrades must happen
+        before a task is claimed.  Only queued work is changed; active and
+        historical task envelopes remain immutable.
+        """
+        upgraded = 0
+        rows = self.conn.execute(
+            "SELECT id,payload,requirements,attempts,excluded_nodes,parent_task "
+            "FROM tasks WHERE status='queued' AND kind=?",
+            (TaskKind.DENDRITRON_MUTATION.value,),
+        ).fetchall()
+        for row in rows:
+            payload = json.loads(row["payload"])
+            declared = requirements_from_value(
+                json.loads(row["requirements"] or "{}"), TaskKind.DENDRITRON_MUTATION
+            )
+            derived = derive_payload_requirements(TaskKind.DENDRITRON_MUTATION, payload)
+            merged = declared.model_copy(update={
+                "resource_class": (
+                    derived.resource_class
+                    if derived.estimated_runtime_seconds > declared.estimated_runtime_seconds
+                    else declared.resource_class
+                ),
+                "min_cpu_threads": max(declared.min_cpu_threads, derived.min_cpu_threads),
+                "preferred_cpu_threads": max(declared.preferred_cpu_threads, derived.preferred_cpu_threads),
+                "min_memory_mb": max(declared.min_memory_mb, derived.min_memory_mb),
+                "max_memory_mb": max(int(declared.max_memory_mb or 0), int(derived.max_memory_mb or 0)),
+                "min_disk_mb": max(declared.min_disk_mb, derived.min_disk_mb),
+                "estimated_runtime_seconds": max(
+                    declared.estimated_runtime_seconds, derived.estimated_runtime_seconds
+                ),
+                "hard_timeout_seconds": max(
+                    declared.hard_timeout_seconds, derived.hard_timeout_seconds
+                ),
+                "max_artifact_bytes": max(declared.max_artifact_bytes, derived.max_artifact_bytes),
+                "required_tags": sorted(set(declared.required_tags) | set(derived.required_tags)),
+                "supported_machines": sorted(
+                    set(declared.supported_machines) | set(derived.supported_machines)
+                ),
+            })
+            if merged != declared:
+                is_root_v6_search = (
+                    payload.get("engine") == "dendriswarm.native10-trainable.v6"
+                    and str(payload.get("work_key", "")).startswith("native10-v6-search:")
+                    and row["parent_task"] is None
+                )
+                self.conn.execute(
+                    "UPDATE tasks SET requirements=?,attempts=?,excluded_nodes=? "
+                    "WHERE id=? AND status='queued'",
+                    (
+                        json.dumps(merged.model_dump(mode="json"), sort_keys=True),
+                        0 if is_root_v6_search else int(row["attempts"]),
+                        "[]" if is_root_v6_search else row["excluded_nodes"],
+                        row["id"],
+                    ),
+                )
+                upgraded += 1
+        return upgraded
+
+    @synchronized
     def requeue_expired_leases(self, now: float | None = None) -> dict[str, int]:
         now = now or time.time()
         requeued = 0
@@ -420,7 +487,9 @@ class Database:
         # invariant database-enforced across coordinator processes, not merely
         # protected by this instance's Python RLock.
         with self.transaction():
-            self.requeue_expired_leases()
+            lease_updates = self.requeue_expired_leases()
+            if lease_updates["requeued"]:
+                self.refresh_queued_mutation_requirements()
             node = self.node(node_id)
             now_check = time.time()
             if not node or float(node["quarantine_until"] or 0) > now_check:

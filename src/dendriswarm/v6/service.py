@@ -752,6 +752,7 @@ class Native10Coordinator:
             "delta": candidate["delta"],
             "native10_checkpoint_root": candidate["base_root"],
             "global_validation_hash": candidate["global_validation_hash"],
+            "validation_sample_count": int(self.store.global_validation()["sample_count"]),
             "verification_quorum": int(verification_quorum),
             "required_tags": ["portable-numpy-v1", "blind-global-verification-v2"],
         }
@@ -807,6 +808,7 @@ class Native10Coordinator:
             "delta": candidate["delta"],
             "native10_checkpoint_root": candidate["base_root"],
             "global_validation_hash": candidate["replication_validation_hash"],
+            "validation_sample_count": int(self.store.replication_validation()["sample_count"]),
             "verification_quorum": int(verification_quorum),
             "required_tags": ["portable-numpy-v1", "blind-global-verification-v2"],
         }
@@ -1268,4 +1270,3 @@ class Native10Coordinator:
                 return 0, details
 
             raise ValueError("task is not a Native10 v0.6 task")
-
