@@ -153,6 +153,8 @@ class SeedNode:
             return response.status_code, value
 
     def _status(self, **updates: Any) -> None:
+        if updates.get("state") not in {"error", "offline"} and "last_error" not in updates:
+            updates["last_error"] = None
         status_key = json.dumps({
             "state": updates.get("state"),
             "reason": updates.get("reason"),

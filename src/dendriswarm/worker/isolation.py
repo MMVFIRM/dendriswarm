@@ -58,6 +58,7 @@ def execute_task_isolated(
     child = psutil.Process(process.pid)
     started = time.monotonic()
     reason: str | None = None
+    result: tuple[str, Any] | None = None
     try:
         while process.is_alive():
             elapsed = time.monotonic() - started
@@ -80,7 +81,14 @@ def execute_task_isolated(
             if int(limits["cpu_threads"]) < cpu_threads:
                 reason = "live-policy-change:cpu-budget-reduced"
                 break
-            time.sleep(max(0.05, poll_seconds))
+            try:
+                # Drain the queue before waiting for the child to exit. Large
+                # artifacts can fill the multiprocessing pipe and otherwise
+                # keep the child's queue feeder alive indefinitely.
+                result = result_queue.get(timeout=max(0.05, poll_seconds))
+                break
+            except queue.Empty:
+                pass
         if reason is not None:
             process.terminate()
             process.join(timeout=3.0)
@@ -88,11 +96,13 @@ def execute_task_isolated(
                 process.kill()
                 process.join(timeout=1.0)
             raise TaskExecutionCancelled(reason)
-        process.join(timeout=1.0)
-        try:
-            status, value = result_queue.get_nowait()
-        except queue.Empty as error:
-            raise TaskExecutionFailed(f"worker subprocess exited with code {process.exitcode} without a result") from error
+        if result is None:
+            try:
+                result = result_queue.get(timeout=1.0)
+            except queue.Empty as error:
+                raise TaskExecutionFailed(f"worker subprocess exited with code {process.exitcode} without a result") from error
+        process.join(timeout=3.0)
+        status, value = result
         if status != "ok":
             raise TaskExecutionFailed(str(value))
         return value

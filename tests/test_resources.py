@@ -312,9 +312,15 @@ def test_lease_renewal_supports_slow_volunteer_nodes(tmp_path):
         }
         task = client.post("/v1/tasks/claim", json=signed_claim).json()["task"]
         before = task["lease_expires_at"]
+        app.state.service.db.conn.execute(
+            "UPDATE nodes SET last_seen=? WHERE id=?",
+            (time.time() - 120, identity.node_id),
+        )
+        assert client.get("/v1/stats").json()["active_nodes"] == 0
         response = client.post("/v1/tasks/renew", json=signed_renewal(identity, task))
         assert response.status_code == 200, response.text
         assert response.json()["lease_expires_at"] > before
+        assert client.get("/v1/stats").json()["active_nodes"] == 1
 
 
 def test_coordinator_advertises_no_accelerator_requirement(tmp_path):

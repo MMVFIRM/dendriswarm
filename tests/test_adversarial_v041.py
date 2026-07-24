@@ -270,6 +270,81 @@ def test_active_task_stops_after_hot_reloaded_pause(tmp_path):
     assert time.monotonic() - started < 5.0
 
 
+def test_large_isolated_task_result_does_not_deadlock_queue(tmp_path):
+    policy_store = SeedPolicyStore(tmp_path / "large-result-policy.json")
+    policy_store.save(SeedPolicy(
+        cpu_percent=100,
+        memory_percent=100,
+        max_task_seconds=20,
+        allow_on_battery=True,
+    ))
+    width = 256
+    sample_count = 200
+    dataset = {
+        "features": [
+            [float((row + column) % 17) for column in range(width)]
+            for row in range(sample_count)
+        ],
+        "labels": [row % 2 for row in range(sample_count)],
+        "splits": {
+            "train": list(range(160)),
+            "validation": list(range(160, sample_count)),
+            "test": [],
+        },
+    }
+    payload = {
+        "config": {
+            "branches": 160,
+            "top_k": 3,
+            "temperature": 0.18,
+            "iterations": 1,
+            "seed": 7,
+        },
+        "dataset_hash": "a" * 64,
+        "_dataset": dataset,
+    }
+    capabilities = NodeCapabilities(
+        cpu_count=2,
+        memory_mb=2_048,
+        memory_available_mb=1_500,
+        disk_free_mb=2_048,
+        tags=["reference-runtime-v2", "deterministic-v2"],
+    )
+    requirements = TaskRequirements(
+        min_memory_mb=64,
+        max_memory_mb=1_024,
+        estimated_runtime_seconds=5,
+        hard_timeout_seconds=20,
+        required_tags=["reference-runtime-v2"],
+    )
+
+    started = time.monotonic()
+    result = execute_task_isolated(
+        TaskKind.TRAINING,
+        payload,
+        cpu_threads=1,
+        memory_limit_mb=1_024,
+        timeout_seconds=20,
+        requirements=requirements,
+        capabilities=capabilities,
+        policy_store=policy_store,
+        poll_seconds=0.05,
+    )
+
+    assert len(json.dumps(result)) > 64 * 1024
+    assert time.monotonic() - started < 10.0
+
+
+def test_seed_status_clears_stale_error_after_recovery(tmp_path):
+    node = SeedNode("http://127.0.0.1:8787", tmp_path / "status-recovery")
+    node._status(state="error", reason="timed out", current_task=None, last_error="timed out")
+    node._status(state="working", reason="task-active", current_task={"id": "next-task"})
+
+    status = json.loads(node.status_path.read_text())
+    assert status["state"] == "working"
+    assert status["last_error"] is None
+
+
 def test_canary_rejects_invalid_and_noninformative_labels():
     workload = make_surrogate_workload(private_seed=42, canary_seed=43, replication_seed=44)
     parent = train_parent(workload)

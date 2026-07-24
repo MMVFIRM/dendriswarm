@@ -643,6 +643,7 @@ class CoordinatorService:
         )
         if expires_at is None:
             raise ValueError("task lease is no longer renewable")
+        self.db.heartbeat(str(value["node_id"]))
         return {"renewed": True, "lease_expires_at": expires_at}
 
     def abandon_lease(self, value: dict[str, Any]) -> dict[str, Any]:
